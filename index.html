@@ -263,10 +263,21 @@
     </div>
     <br><br><br>
     <figure id="rituel-image" aria-labelledby="caption-rituel" aria-describedby="caption-rituel">
-      <picture>
-        <source srcset="https://imgur.com/KBYqPcf.png" type="image/webp">
-        <img src="https://imgur.com/KBYqPcf.png" alt="Rituel de désenvoûtement puissant : Briser les sorts noirs et purifier les énergies négatives" width="1200" height="600" loading="lazy" decoding="async" fetchpriority="high" importance="high">
-      </picture>
+ <picture>
+    <!-- Format AVIF (le plus léger et performant) -->
+    <source srcset="https://i.imgur.com/GmyGlKk.avif" type="image/avif" sizes="(max-width: 768px) 100vw, 450px">
+    <!-- Format WebP en fallback -->
+    <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+    <!-- Format PNG en dernier recours -->
+    <img src="https://i.imgur.com/GmyGlKk.png" 
+         alt="Illustration sacrée du rituel de désenvoûtement et protection rapide" 
+         width="450" height="450" 
+         loading="lazy" 
+         decoding="async" 
+         fetchpriority="high"
+         style="max-width:100%;height:auto;margin:0 auto;display:block;">
+ </picture>
+
       <figcaption id="caption-rituel" class="visually-hidden">Image de rituel de désenvoûtement et protection rapide : Purification spirituelle et bouclier contre les malédictions.</figcaption>
     </figure>
   </header>
