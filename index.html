@@ -564,6 +564,65 @@
 }
 </style>
 
+<style>
+/* CSS minifié : bouton rond + chat box cachée, optimisé pour mobile */
+#chat-container {
+  position: fixed; bottom: 20px; right: 20px;
+  width: 300px; max-height: 450px;
+  display: flex; flex-direction: column;
+  z-index: 999999; font-family: Arial, sans-serif;
+  cursor: move; /* Indique que l'élément est déplaçable */
+}
+#chat-toggle {
+  width: 60px; height: 60px;
+  background: linear-gradient(145deg,#FFB6C1,#FF69B4);
+  color: #fff; border: none; border-radius: 50%;
+  cursor: pointer; box-shadow: 0 4px 12px rgba(255,105,180,.7);
+  font-size: 1.4rem; display: flex;
+  align-items: center; justify-content: center;
+  transition: transform .2s; outline: none;
+}
+#chat-toggle:hover { transform: scale(1.05); }
+#chat-box {
+  background: #111; border-radius: 10px;
+  flex: 1; display: flex; flex-direction: column;
+  overflow: hidden; margin-top: -10px;
+}
+#chat-messages {
+  flex: 1; padding: 1rem; overflow-y: auto; color: #fff;
+}
+#chat-messages p {
+  margin-bottom: .5rem; line-height: 1.4;
+}
+.user-message {
+  text-align: right; color: #ffd700; margin-bottom: .8rem;
+}
+.bot-message {
+  text-align: left; color: #fff;
+  background: rgba(255,255,255,.05);
+  padding: .5rem; border-radius: 5px;
+  margin-bottom: .8rem; display: inline-block;
+  max-width: 80%;
+}
+#chat-form {
+  display: flex; border-top: 1px solid #333;
+}
+#chat-input {
+  flex: 1; padding: .5rem; border: none;
+  outline: none; color: #333; border-radius: 0 0 0 10px;
+}
+#chat-send {
+  background: #87CEEB; border: none; padding: .5rem 1rem;
+  cursor: pointer; color: #fff; font-weight: bold;
+  border-radius: 0 0 10px 0; transition: background .2s;
+}
+#chat-send:hover { background: #5eb6d1; }
+#chat-box.hidden { display: none; }
+@media(max-width:400px) {
+  #chat-container { width: 90%; right: 5%; bottom: 5px; }
+}
+</style>
+
 <div id="chat-container">
   <!-- Bouton unique : bulle sans texte, juste l’icône -->
   <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
@@ -579,12 +638,6 @@
 </div>
 
 <script>
-/**
- * Tchat IA "bulle unique" + tracking, version 2025
- * Base de connaissances étendue, sans API externe
- * Code par Frederic / ClairvoyanceMedium.com
- */
-
 // Tracking d'événements (Google Analytics ou fallback console)
 function trackClick(label, category='Chat', value=null){
   if(typeof gtag==='function'){
@@ -596,37 +649,105 @@ function trackClick(label, category='Chat', value=null){
   } else console.log("Tracking:",label,category,value);
 }
 
-// Base de connaissances
+// Base de connaissances étendue avec 100 nouvelles entrées
 const knowledgeBase=[
-  {question:"bonjour",answer:"Bonjour ! En quoi puis-je vous aider ? Le rituel de désenvoûtement dissipe toute énergie négative."},
-  {question:"envoûtement",answer:"Un envoûtement se traduit par fatigue, malchance et tensions. Notre rituel (250€) vous libère en 4 jours."},
-  {question:"protection",answer:"Une protection spirituelle vous met à l’abri des agressions occultes. Frederick la met en place rapidement."},
-  {question:"symptômes",answer:"Fatigue chronique, cauchemars, conflits sans raison... Ces signes indiquent un sort éventuel. Délivrance rapide possible."},
-  {question:"fatigue",answer:"La fatigue persistante peut venir d’énergies négatives. Un désenvoûtement restaure votre vitalité."},
-  {question:"cauchemars",answer:"Des cauchemars intenses sont souvent liés à un sort. Le rituel vous rendra la paix nocturne."},
-  {question:"malchance",answer:"Une série d’échecs et de blocages sont un indice d’envoûtement. Le rituel casse ce cercle vicieux."},
-  {question:"prix",answer:"Le rituel de désenvoûtement et protection coûte 250€ (paiement unique)."},
-  {question:"voyance",answer:"Nous proposons une voyance par email dès 6€ pour détecter un éventuel sort avant le rituel."},
-  {question:"détection",answer:"Pour 50€, Frederick vérifie votre aura pour confirmer la présence d’un envoûtement."},
-  {question:"frederick",answer:"Avec 25 ans d’expérience, Frederick est reconnu mondialement pour briser les sorts puissants."},
-  {question:"durée",answer:"Le rituel s’active en 4 jours, effets dès 2 semaines, protection sur plusieurs années."},
-  {question:"paiement",answer:"Le règlement s’effectue via Stripe. Vous recevrez ensuite un formulaire à compléter."},
-  {question:"remboursement",answer:"Nous sommes confiants quant à l’efficacité du rituel. Contactez Frederick pour connaître les conditions."},
-  {question:"conseils",answer:"Si vous ressentez oppression ou fatigue étrange, n’hésitez pas à nous consulter."},
-  {question:"rituel complet",answer:"Le Rituel Complet (300€) inclut détection, désenvoûtement et protection totale."},
-  {question:"formulaire",answer:"Après paiement, vous décrivez vos symptômes pour un rituel ciblé."},
-  {question:"garanties",answer:"Nos milliers de clients satisfaits sont la meilleure preuve de notre efficacité."},
-  {question:"cauchemars enfant",answer:"Un envoûtement familial peut affecter votre enfant. Le rituel protège tout le foyer."},
-  {question:"energies négatives",answer:"Si elles s’accumulent, elles bloquent vos projets. Le rituel nettoie et réharmonise vos vibrations."},
-  {question:"temporalité",answer:"Activation en 4 jours, effets en 2 semaines et protection à long terme."},
-  {question:"risque",answer:"Sans action, l’envoûtement peut empirer. Il est crucial d’agir rapidement."},
-  {question:"retour argent",answer:"Chaque cas est unique. La sincérité et la confiance renforcent l’efficacité du rituel."},
-  {question:"mauvais oeil",answer:"Le ‘mauvais oeil’ peut ruiner vos projets. Notre rituel brise cette influence avec puissance."},
-  {question:"envoutement familial",answer:"Lorsque toute la famille subit des blocages, un sort collectif peut en être la cause."},
-  {question:"couple",answer:"Des tensions inexplicables dans le couple peuvent être le signe d’une énergie néfaste."},
-  {question:"chance aux jeux",answer:"Le rituel peut rétablir votre aura de chance, mais restez responsable dans vos mises."},
-  {question:"enfant malade",answer:"Si la médecine ne trouve aucune cause, un envoûtement peut l’affaiblir. Le rituel soulage ces maux."},
-  {question:"comment briser une malediction",answer:"Un rituel dédié permet de couper toute malédiction ancestrale ou envoûtement puissant."}
+  {question:"bonjour",answer:"Bonjour ! Votre vie peut changer dès maintenant. Un rituel de désenvoûtement (250€) dissipe les ombres qui vous retiennent. Agissez vite : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"envoûtement",answer:"Un envoûtement ronge votre énergie avec fatigue et malchance. Ne laissez pas les ténèbres gagner ! Libérez-vous en 4 jours pour 250€ : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"protection",answer:"Une protection spirituelle est votre bouclier contre les sorts. Frederick agit vite pour vous sauver des ombres. Commandez maintenant (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"symptômes",answer:"Fatigue, cauchemars, échecs… Ces signes crient un sortilège ! Ne tardez pas, détectez-le pour 50€ (https://buy.stripe.com/6oE3cAevG5mLgpi7tL) et brisez-le avec un rituel."},
+  {question:"fatigue",answer:"Une fatigue sans fin ? C’est peut-être un envoûtement qui vous vole votre lumière. Retrouver votre énergie avec un rituel à 250€ : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"cauchemars",answer:"Les cauchemars vous hantent ? Un sortilège vous attaque la nuit. Chassez-les en 4 jours avec un rituel puissant (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"malchance",answer:"La malchance vous suit ? C’est un signe clair d’envoûtement. Brisez ce cycle infernal dès maintenant pour 250€ : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"prix",answer:"Le rituel de désenvoûtement et protection coûte 250€. Une vie lumineuse vaut chaque centime ! Agissez : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"voyance",answer:"Une voyance par email (6€) révèle si un sort vous touche. Ne vivez pas dans l’ombre, détectez-le maintenant : https://buy.stripe.com/14kdRe0EQ4iH1uoaFa"},
+  {question:"détection",answer:"Pour 50€, Frederick sonde votre aura. Sachez vite si un envoûtement vous menace : https://buy.stripe.com/6oE3cAevG5mLgpi7tL"},
+  {question:"frederick",answer:"Frederick, maître mondial avec 25 ans d’expérience, brise les sorts les plus noirs. Faites-lui confiance dès aujourd’hui (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"durée",answer:"En 4 jours, le rituel agit. En 2 semaines, votre vie s’illumine. N’attendez plus pour cette délivrance : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"paiement",answer:"Paiement sécurisé via Stripe. Ensuite, libérez votre âme avec un rituel sur mesure (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"remboursement",answer:"Nos rituels transforment des vies. Chaque cas est unique, contactez-nous. Agissez maintenant : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"conseils",answer:"Oppression ou fatigue étrange ? Ne laissez pas les ombres s’installer. Détectez (50€) et purifiez-vous : https://buy.stripe.com/6oE3cAevG5mLgpi7tL"},
+  {question:"rituel complet",answer:"Pour 300€, détection + désenvoûtement + protection totale. Une vie nouvelle vous attend, saisissez-la !"},
+  {question:"formulaire",answer:"Après paiement, décrivez vos maux. Frederick personnalise votre salut (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"garanties",answer:"1500+ âmes libérées chantent nos louanges. Rejoignez-les avec un rituel à 250€ : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"cauchemars enfant",answer:"Les cauchemars de votre enfant signalent un sort familial. Protégez votre foyer pour 250€ : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"energies négatives",answer:"Énergies négatives bloquent tout ? Purifiez-vous avant qu’il ne soit trop tard (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"temporalité",answer:"4 jours pour agir, 2 semaines pour renaître. Chaque instant compte, libérez-vous : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"risque",answer:"Ignorer un envoûtement empire tout. Agissez vite pour sauver votre destin (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"retour argent",answer:"La confiance amplifie le rituel. Chaque cas est unique, mais la lumière vous appelle (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"mauvais oeil",answer:"Le mauvais œil détruit vos rêves. Brisez-le maintenant avec un rituel à 250€ : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"envoutement familial",answer:"Votre famille souffre ? Un sort collectif vous enchaîne. Libérez tous pour 250€ : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"couple",answer:"Tensions dans votre couple ? Un sort peut-être. Sauvez votre amour (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"chance aux jeux",answer:"La chance vous fuit ? Un rituel purifie votre aura pour gagner à nouveau (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"enfant malade",answer:"Un enfant malade sans raison ? Un sort l’affaiblit. Protégez-le vite (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"comment briser une malediction",answer:"Une malédiction vous étouffe ? Un rituel puissant la tranche (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"tristesse",answer:"Une tristesse sans fin vous ronge ? Un sort vous vole votre joie. Reprenez-la (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"colère",answer:"Une colère inexplicable ? Les ombres vous manipulent. Libérez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"peur",answer:"Peur constante ? Un envoûtement vous traque. Brisez-le maintenant (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"travail",answer:"Blocages au travail ? Un sort sabote vos efforts. Réussissez enfin (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"argent",answer:"Problèmes d’argent incessants ? Un envoûtement bloque l’abondance. Attirez-la (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"sommeil",answer:"Sommeil troublé ? Les sorts vous épuisent. Retrouver la paix (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"douleurs",answer:"Douleurs sans cause ? Un sort vous attaque. Soulagez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"anxiété",answer:"Anxiété écrasante ? Les ténèbres vous oppressent. Respirez librement (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"dépression",answer:"Dépression persistante ? Un sort vous vole votre lumière. Renaître (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"solitude",answer:"Seul malgré tout ? Un envoûtement repousse les autres. Attirez l’amour (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"jalousie",answer:"Jalousie autour de vous ? Elle alimente les sorts. Protégez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"amis",answer:"Amis qui s’éloignent ? Un sort brise vos liens. Restaurez-les (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"ennemis",answer:"Ennemis invisibles ? Ils envoûtent votre vie. Neutralisez-les (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"santé",answer:"Santé fragile sans raison ? Un sort vous affaiblit. Retrouver la force (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"maladie",answer:"Maladie persistante ? Un envoûtement peut l’aggraver. Guérissez (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"échec",answer:"Échecs répétés ? Les ombres bloquent votre succès. Triomphez (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"projet",answer:"Projets qui échouent ? Un sort vous sabote. Réussissez enfin (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"motivation",answer:"Plus de motivation ? Un envoûtement éteint votre flamme. Rallumez-la (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"confiance",answer:"Confiance perdue ? Les sorts vous écrasent. Relevez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"espoir",answer:"Espoir envolé ? Un envoûtement vous voile. Retrouver la lumière (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"futur",answer:"Futur sombre ? Les sorts le ternissent. Éclairez-le (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"passé",answer:"Passé qui vous hante ? Une malédiction vous lie. Libérez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"présent",answer:"Présent lourd ? Un sort vous enchaîne. Brisez-le (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"rêves",answer:"Rêves troublés ? Les ombres vous attaquent. Apaisez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"intuition",answer:"Intuition confuse ? Un sort brouille votre esprit. Clarifiez (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"vision",answer:"Vision floue de la vie ? Les ténèbres vous aveuglent. Voyez clair (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"destin",answer:"Destin bloqué ? Un envoûtement vous retient. Libérez-le (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"énergie",answer:"Énergie vidée ? Un sort vous draine. Rechargez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"aura",answer:"Aura ternie ? Les ombres l’étouffent. Purifiez-la (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"stress",answer:"Stress incessant ? Un sort vous oppresse. Apaisez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"nervosité",answer:"Nervosité sans fin ? Les ténèbres vous agitent. Calmez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"panique",answer:"Attaques de panique ? Un sort vous étreint. Libérez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"insomnie",answer:"Insomnie chronique ? Les ombres vous veillent. Dormez enfin (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"migraines",answer:"Migraines fréquentes ? Un sort vous frappe. Soulagez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"douleur dos",answer:"Mal de dos inexpliqué ? Un envoûtement pèse sur vous. Libérez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"douleur tête",answer:"Maux de tête constants ? Les sorts vous assaillent. Apaisez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"étourdissements",answer:"Étourdissements fréquents ? Un sort vous déséquilibre. Retrouver l’équilibre (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"nausées",answer:"Nausées soudaines ? Les ombres vous intoxiquent. Purifiez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"appétit",answer:"Perte d’appétit ? Un envoûtement vous affaiblit. Revivez (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"poids",answer:"Prise ou perte de poids étrange ? Un sort vous perturbe. Harmonisez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"yeux",answer:"Vue troublée ? Les ténèbres vous aveuglent. Clarifiez (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"audition",answer:"Bruit dans les oreilles ? Un sort vous murmure. Silencez-le (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"parole",answer:"Difficulté à parler ? Les ombres vous musellent. Libérez votre voix (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"mémoire",answer:"Oublis fréquents ? Un envoûtement brouille votre esprit. Retrouver la clarté (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"concentration",answer:"Concentration perdue ? Les sorts vous dispersent. Recentrez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"décision",answer:"Indécision constante ? Un envoûtement vous paralyse. Décidez librement (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"amour",answer:"Amour en crise ? Un sort éloigne votre bonheur. Rallumez la flamme (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"séparation",answer:"Séparation soudaine ? Les ombres brisent vos liens. Restaurez-les (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"célibat",answer:"Célibat prolongé ? Un sort repousse l’amour. Attirez-le (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"famille",answer:"Conflits familiaux ? Un envoûtement sème la discorde. Réunissez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"enfants",answer:"Enfants agités ou malades ? Un sort les touche. Protégez-les (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"parents",answer:"Parents en souffrance ? Un envoûtement familial les atteint. Sauvez-les (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"maison",answer:"Malaise chez vous ? Une énergie noire hante les lieux. Purifiez-la (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"déménagement",answer:"Problèmes après un déménagement ? Un sort vous suit. Libérez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"voisins",answer:"Voisins hostiles ? Leur jalousie vous envoûte. Protégez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"bruit",answer:"Bruits étranges ? Les ombres vous harcèlent. Apaisez votre espace (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"objets",answer:"Objets qui bougent ou disparaissent ? Un sort joue avec vous. Neutralisez-le (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"animaux",answer:"Animaux agités ou malades ? Un envoûtement les atteint. Sauvez-les (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"plantes",answer:"Plantes qui meurent ? Une énergie noire les tue. Revivifiez tout (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"accident",answer:"Accidents fréquents ? Un sort vous met en danger. Protégez-vous (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"voiture",answer:"Pannes de voiture répétées ? Les ombres vous immobilisent. Roulez librement (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"technologie",answer:"Pannes technologiques ? Un sort perturbe tout. Réparez votre vie (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"chance",answer:"Chance disparue ? Un envoûtement vous bloque. Retrouver la fortune (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"succès",answer:"Succès qui échappe ? Les ténèbres vous freinent. Triomphez (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"prospérité",answer:"Prospérité absente ? Un sort la repousse. Attirez-la vite (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"harmonie",answer:"Harmonie perdue ? Les ombres sèment le chaos. Restaurez-la (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"paix",answer:"Paix intérieure brisée ? Un envoûtement vous vole tout. Retrouver le calme (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
+  {question:"joie",answer:"Joie envolée ? Les sorts éteignent votre lumière. Rallumez-la (250€) : https://buy.stripe.com/cN2bJ62MYg1p0qk5lE"},
 ];
 
 // Correspondance via distance de Levenshtein
@@ -649,14 +770,16 @@ function findBestMatch(userInput){
   return bestScore>5?null:bestAnswer
 }
 
-// Initialisation du Tchat
+// Initialisation du Tchat avec déplaçabilité
 (function(){
-  const chatToggle=document.getElementById("chat-toggle"),
+  const chatContainer=document.getElementById("chat-container"),
+        chatToggle=document.getElementById("chat-toggle"),
         chatBox=document.getElementById("chat-box"),
         chatForm=document.getElementById("chat-form"),
         chatInput=document.getElementById("chat-input"),
         chatMessages=document.getElementById("chat-messages");
 
+  // Ouvrir/fermer le chat
   chatToggle.addEventListener("click",()=>{
     const isHidden=chatBox.classList.contains("hidden");
     chatBox.classList.toggle("hidden");
@@ -667,6 +790,7 @@ function findBestMatch(userInput){
     } else trackClick("ChatClose","Interaction",0);
   });
 
+  // Gestion de l'envoi des messages
   chatForm.addEventListener("submit",(e)=>{
     e.preventDefault();
     const userMsg=chatInput.value.trim();
@@ -675,7 +799,7 @@ function findBestMatch(userInput){
     trackClick("ChatMessage","Interaction",0);
     chatInput.value="";
     const answer=findBestMatch(userMsg);
-    addMessage(answer?answer:"Je ne comprends pas… Pouvez-vous reformuler ?", "bot-message");
+    addMessage(answer?answer:"Je ne comprends pas… Reformulez, et découvrez vite si un sort vous touche (50€) : https://buy.stripe.com/6oE3cAevG5mLgpi7tL","bot-message");
   });
 
   function addMessage(txt,cls){
@@ -684,6 +808,57 @@ function findBestMatch(userInput){
     chatMessages.appendChild(p);
     chatMessages.scrollTop=chatMessages.scrollHeight;
   }
+
+  // Déplaçabilité de la bulle
+  let isDragging=false, currentX, currentY, initialX, initialY;
+  
+  chatContainer.addEventListener("mousedown",startDragging);
+  chatContainer.addEventListener("touchstart",startDragging,{passive:false});
+
+  function startDragging(e){
+    isDragging=true;
+    if(e.type==="mousedown"){
+      initialX=e.clientX-currentX;
+      initialY=e.clientY-currentY;
+    } else if(e.type==="touchstart"){
+      initialX=e.touches[0].clientX-currentX;
+      initialY=e.touches[0].clientY-currentY;
+    }
+    document.addEventListener("mousemove",drag);
+    document.addEventListener("touchmove",drag,{passive:false});
+    document.addEventListener("mouseup",stopDragging);
+    document.addEventListener("touchend",stopDragging);
+  }
+
+  function drag(e){
+    if(!isDragging)return;
+    e.preventDefault();
+    if(e.type==="mousemove"){
+      currentX=e.clientX-initialX;
+      currentY=e.clientY-initialY;
+    } else if(e.type==="touchmove"){
+      currentX=e.touches[0].clientX-initialX;
+      currentY=e.touches[0].clientY-initialY;
+    }
+    chatContainer.style.right="auto";
+    chatContainer.style.bottom="auto";
+    chatContainer.style.left=`${currentX}px`;
+    chatContainer.style.top=`${currentY}px`;
+  }
+
+  function stopDragging(){
+    isDragging=false;
+    document.removeEventListener("mousemove",drag);
+    document.removeEventListener("touchmove",drag);
+    document.removeEventListener("mouseup",stopDragging);
+    document.removeEventListener("touchend",stopDragging);
+  }
+
+  // Initialisation de la position
+  currentX=window.innerWidth-chatContainer.offsetWidth-20;
+  currentY=window.innerHeight-chatContainer.offsetHeight-20;
+  chatContainer.style.left=`${currentX}px`;
+  chatContainer.style.top=`${currentY}px`;
 })();
 </script>
   
