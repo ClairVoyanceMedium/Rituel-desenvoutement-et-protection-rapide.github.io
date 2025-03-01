@@ -242,9 +242,27 @@
 <body>
   <header>
     <picture>
-      <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp" sizes="(max-width: 768px) 100vw, 450px">
-      <img src="https://imgur.com/KBYqPcf.png" alt="Illustration sacrée du rituel de désenvoûtement et protection rapide le plus puissant au monde" width="450" height="450" loading="lazy" decoding="async" fetchpriority="high" style="max-width:100%;height:auto;margin:0 auto;display:block;" class="logo">
-    </picture>
+  <!-- WebP prioritaire, si pris en charge par le navigateur -->
+  <source
+    srcset="https://i.imgur.com/GmyGlKk.webp"
+    type="image/webp">
+
+  <!-- JPG de fallback -->
+  <img
+    src="https://i.imgur.com/GmyGlKk.jpg"
+    alt="Logo du rituel de désenvoûtement et de protection, libération spirituelle"
+    width="720"
+    height="720"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="high"
+    style="
+      display: block;
+      margin: 0 auto;
+      width: 720px;       /* Force le logo à 720px si espace disponible */
+      max-width: 100%;    /* Se limite à 100% de l'écran sur les petits écrans */
+      height: auto;">
+</picture>
     <br>
     <div class="top-rank">
       <span class="number-one">Nº 1 sur le web encore en <span id="current-year"></span></span>
