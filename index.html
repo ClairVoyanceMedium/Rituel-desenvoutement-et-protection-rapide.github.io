@@ -262,13 +262,55 @@
       </button>
     </div>
     <br><br><br>
-    <figure id="rituel-image" aria-labelledby="caption-rituel" aria-describedby="caption-rituel">
-      <picture>
-        <source srcset="https://imgur.com/KBYqPcf.png" type="image/webp">
-        <img src="https://imgur.com/KBYqPcf.png" alt="Rituel de désenvoûtement puissant : Briser les sorts noirs et purifier les énergies négatives" width="1200" height="600" loading="lazy" decoding="async" fetchpriority="high" importance="high">
-      </picture>
-      <figcaption id="caption-rituel" class="visually-hidden">Image de rituel de désenvoûtement et protection rapide : Purification spirituelle et bouclier contre les malédictions.</figcaption>
-    </figure>
+
+    <figure
+  style="
+    margin: 0 auto;
+    max-width: 1200px;
+    text-align: center;
+    line-height: 1.4;">
+  
+  <!-- Balise <picture> pour prioriser le format WebP, puis fallback PNG -->
+  <picture>
+    <!-- WebP (si le navigateur le supporte) -->
+    <source
+      srcset="https://i.imgur.com/KBYqPcf.webp"
+      type="image/webp"
+      sizes="(max-width: 768px) 100vw, 1200px">
+    
+    <!-- Fallback PNG -->
+    <img
+      src="https://i.imgur.com/KBYqPcf.png"
+      alt="Rituel divin : désenvoûtement et protection rapide, conçu par Frederick"
+      width="1200"
+      height="600"
+      loading="lazy"
+      decoding="async"
+      style="
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        object-fit: cover;
+        max-width: 100%;">
+  </picture>
+
+  <figcaption
+    style="
+      color: #faf8f0; /* Blanc nacré */
+      font-size: 1rem; /* Texte légèrement agrandi */
+      margin-top: 2rem; /* Espacement supplémentaire entre l'image et le texte */
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.4;">
+    <strong>Plongez dans le rituel de désenvoûtement et de protection :</strong>
+    brisez toute énergie négative, libérez-vous des sorts malveillants et retrouvez une chance renouvelée.
+    Vivez dans la lumière en profitant d’une paix intérieure durable,
+    d’une harmonie spirituelle profonde et d’un bien-être au quotidien.
+  </figcaption>
+</figure>
+    
   </header>
 
   <main>
