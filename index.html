@@ -407,10 +407,14 @@
      role="button" aria-label="Ouvrir une nouvelle page pour me contacter par email"
      target="_blank" rel="noopener noreferrer"
      onclick="trackClick('EmailDarkVioletTxt','CTA',0)"
+     onmouseover="this.style.transform='translateY(-2px) scale(1.05)';this.style.boxShadow='0 6px 15px rgba(216,180,254,.7)';"
+     onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 12px rgba(216,180,254,.5)';"
      style="
        display:inline-block;
-       padding:0.8rem 1.2rem;
-       font-size:1.2rem;
+       width:clamp(120px,40vw,220px);
+       height:clamp(48px,12vw,68px);
+       padding:0.5rem;
+       font-size:clamp(1rem,3vw,1.2rem);
        font-family:'Cinzel',serif;
        color:#4B0082;
        background:linear-gradient(145deg,#E6E6FA,#D8B4FE);
@@ -419,13 +423,12 @@
        transition:transform .2s, box-shadow .2s;
        margin:0.5rem 0;
        box-shadow:0 4px 12px rgba(216,180,254,.5);
-     "
-     onmouseover="this.style.transform='translateY(-2px) scale(1.05)';this.style.boxShadow='0 6px 15px rgba(216,180,254,.7)';"
-     onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 12px rgba(216,180,254,.5)';">
-    Besoin d'un rituel particulier ? Votre demande ici
+       display:flex;align-items:center;justify-content:center;">
+    NOUVELLE PAGE EMAIL
   </a>
 </div>
-      <br>
+
+      <br><br>
       <h3>Les Symptômes Mystiques d’un Envoûtement Maléfique</h3>
       <p>Écoutez les murmures de votre âme et reconnaissez ces <strong>signes d’un sortilège à distance</strong> qui appellent une délivrance urgente :</p>
       <ul>
