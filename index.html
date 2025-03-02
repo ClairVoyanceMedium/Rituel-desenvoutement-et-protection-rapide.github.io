@@ -1042,5 +1042,25 @@ function findBestMatch(userInput){
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("#current-year,#current-year-footer").forEach(e=>e.textContent=new Date().getFullYear());function addToFavorites(e){const t=e.querySelector(".favorite-text");t.innerHTML="⭐ Ajouté !",t.style.color="#FFD700",e.setAttribute("aria-pressed","true"),/iPhone|iPad|iPod/i.test(navigator.userAgent)?alert("Partagez > Ajouter à l’écran d’accueil"):/Android/i.test(navigator.userAgent)?alert("Menu (⋮) > Ajouter à l’écran d’accueil"):alert("Ctrl + D ou Cmd + D");trackClick("Ajout Favoris","Interaction",0);}function trackClick(e,t="CTA",n=null){typeof gtag==="function"?gtag("event","click",{"event_category":t,"event_label":e,"value":n}):console.log("gtag indisponible:",e,t,n);}const t=document.querySelectorAll(".favorite-button");t.forEach(e=>e.addEventListener("click",()=>addToFavorites(e)));const n=document.querySelectorAll(".carousel blockquote");let a=0;n[0].classList.add("active"),setInterval(()=>{n.forEach(e=>e.classList.remove("active")),n[a].classList.add("active"),a=(a+1)%n.length},4e3);});
   </script>
+
+  <script nonce="xai-48273">
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+  });
+</script>
+<style>
+  section { opacity: 0; transition: opacity 0.5s ease-in; }
+  section.visible { opacity: 1; }
+</style>
+  
 </body>
 </html>
