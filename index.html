@@ -128,6 +128,11 @@
     .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
   </style>
 
+  <style>
+    section { opacity: 0; transition: opacity 0.5s ease-in; }
+    section.visible { opacity: 1; }
+  </style>
+  
   <!-- Données structurées BreadcrumbList optimisées pour le N°1 mondial -->
 <script type="application/ld+json">
 {
@@ -1053,10 +1058,6 @@ function findBestMatch(userInput){
     sections.forEach(section => observer.observe(section));
   });
 </script>
-<style>
-  section { opacity: 0; transition: opacity 0.5s ease-in; }
-  section.visible { opacity: 1; }
-</style>
 
 <!-- Google Tag Manager -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
