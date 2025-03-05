@@ -68,23 +68,61 @@
   <noscript><link href="styles-critical.css" rel="stylesheet"></noscript>
 
   <!-- Google Ads & Analytics optimisés pour mobile -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
-  <script nonce="xai-48273">
-    (function(){const initGoogleAds=({conversionId,conversionLabel=null,transactionValue=null,currency='EUR'})=>{window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',`AW-${conversionId}`,{page_path:window.location.pathname,anonymize_ip:true});gtag('event','page_view',{'send_to':`AW-${conversionId}`});if(conversionLabel&&transactionValue!==null){gtag('event','conversion',{'send_to':`AW-${conversionId}/${conversionLabel}`,'value':transactionValue,'currency':currency});}};const googleAdsConfig={conversionId:'AW-00000000000',conversionLabel:'CONVERSION_LABEL_OPTIONNEL',transactionValue:0};initGoogleAds(googleAdsConfig);})();
-  </script>
-  <script nonce="xai-48273">
-    (function(){const conversionId='AW-00000000000';var script=document.createElement('script');script.src=`https://www.googleadservices.com/pagead/conversion_async.js?id=${conversionId}`;script.async=true;document.head.appendChild(script);script.onload=function(){var google_trackConversion={google_conversion_id:conversionId,google_custom_params:window.google_tag_params||{},google_remarketing_only:true};};})();
-  </script>
-  <noscript>
-    <div style="display:inline;">
-      <img height="1" width="1" style="border-style:none;" alt="Suivi Google Ads" src="https://www.googleadservices.com/pagead/conversion/AW-00000000000/?value=0&currency_code=EUR&label=CONVERSION_LABEL_OPTIONNEL&guid=ON&script=0">
-    </div>
-  </noscript>
-  <script nonce="xai-48273">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P3J6SXCH');</script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
-  <script nonce="xai-48273">
-    window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2RSFE6WL4M',{'send_page_view':true,'linker':{'domains':['clairvoyancemedium.com']},'anonymize_ip':true,'page_speed_sample_rate':100});
-  </script>
+<script defer src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
+<script nonce="xai-48273" defer>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  document.addEventListener("DOMContentLoaded", function() {
+    gtag('js', new Date());
+    gtag('config', 'AW-00000000000', {page_path: window.location.pathname, anonymize_ip: true});
+    gtag('event', 'page_view', {'send_to': 'AW-00000000000'});
+  });
+</script>
+
+<script nonce="xai-48273" defer>
+  document.addEventListener("DOMContentLoaded", function() {
+    const conversionId = 'AW-00000000000';
+    const script = document.createElement('script');
+    script.src = `https://www.googleadservices.com/pagead/conversion_async.js?id=${conversionId}`;
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = function() {
+      window.google_trackConversion = {
+        google_conversion_id: conversionId,
+        google_custom_params: window.google_tag_params || {},
+        google_remarketing_only: true
+      };
+    };
+  });
+</script>
+<noscript>
+  <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="Suivi Google Ads" src="https://www.googleadservices.com/pagead/conversion/AW-00000000000/?value=0&currency_code=EUR&label=CONVERSION_LABEL_OPTIONNEL&guid=ON&script=0">
+  </div>
+</noscript>
+
+<script defer src="https://www.googletagmanager.com/gtm.js?id=GTM-P3J6SXCH"></script>
+<script nonce="xai-48273" defer>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+  });
+</script>
+
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
+<script nonce="xai-48273" defer>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2RSFE6WL4M', {
+      'send_page_view': true,
+      'linker': {'domains': ['clairvoyancemedium.com']},
+      'anonymize_ip': true,
+      'page_speed_sample_rate': 100
+    });
+  });
+</script>
 
   <!-- Styles CSS optimisés pour mobile et SEO vocal -->
   <style>
