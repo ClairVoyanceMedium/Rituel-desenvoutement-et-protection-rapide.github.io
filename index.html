@@ -668,416 +668,103 @@
   <br>
 </footer>
 
-<!-- Tchat IA "Bulle unique" ultra-optimisé pour mobile, version 2025 -->
-<style>
-/* CSS minifié : un seul bouton rond + chat box cachée */
-#chat-container {
-  position: fixed; bottom: 20px; right: 20px;
-  width: 300px; max-height: 450px;
-  display: flex; flex-direction: column;
-  z-index: 999999; font-family: Arial, sans-serif;
-}
-#chat-toggle {
-  width: 60px; height: 60px;
-  background: linear-gradient(145deg,#FFB6C1,#FF69B4);
-  color: #fff; border: none; border-radius: 50%;
-  cursor: pointer; box-shadow: 0 4px 12px rgba(255,105,180,.7);
-  font-size: 1.4rem; display: flex;
-  align-items: center; justify-content: center;
-  transition: transform .2s; outline: none;
-}
-#chat-toggle:hover { transform: scale(1.05); }
-#chat-box {
-  background: #111; border-radius: 10px;
-  flex: 1; display: flex; flex-direction: column;
-  overflow: hidden; margin-top: -10px; /* pour coller le box au bouton */
-}
-#chat-messages {
-  flex: 1; padding: 1rem; overflow-y: auto; color: #fff;
-}
-#chat-messages p {
-  margin-bottom: .5rem; line-height: 1.4;
-}
-.user-message {
-  text-align: right; color: #ffd700; margin-bottom: .8rem;
-}
-.bot-message {
-  text-align: left; color: #fff;
-  background: rgba(255,255,255,.05);
-  padding: .5rem; border-radius: 5px;
-  margin-bottom: .8rem; display: inline-block;
-  max-width: 80%;
-}
-#chat-form {
-  display: flex; border-top: 1px solid #333;
-}
-#chat-input {
-  flex: 1; padding: .5rem; border: none;
-  outline: none; color: #333; border-radius: 0 0 0 10px;
-}
-#chat-send {
-  background: #87CEEB; border: none; padding: .5rem 1rem;
-  cursor: pointer; color: #fff; font-weight: bold;
-  border-radius: 0 0 10px 0; transition: background .2s;
-}
-#chat-send:hover { background: #5eb6d1; }
-#chat-box.hidden { display: none; }
-@media(max-width:400px){
-  #chat-container { width: 90%; right: 5%; bottom: 5px; }
-}
-</style>
-
 <style>
 /* CSS minifié : bouton rond + chat box cachée, optimisé pour mobile */
 #chat-container {
-  position: fixed; bottom: 20px; right: 20px;
-  width: 300px; max-height: 450px;
-  display: flex; flex-direction: column;
-  z-index: 999999; font-family: Arial, sans-serif;
-  cursor: move; /* Indique que l'élément est déplaçable */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px; /* Largeur réduite pour la bulle seule */
+    height: 60px; /* Hauteur réduite pour la bulle seule */
+    z-index: 999999;
+    font-family: Arial, sans-serif;
+    cursor: move; /* Indique que l'élément est déplaçable */
 }
+
 #chat-toggle {
-  width: 60px; height: 60px;
-  background: linear-gradient(145deg,#FFB6C1,#FF69B4);
-  color: #fff; border: none; border-radius: 50%;
-  cursor: pointer; box-shadow: 0 4px 12px rgba(255,105,180,.7);
-  font-size: 1.4rem; display: flex;
-  align-items: center; justify-content: center;
-  transition: transform .2s; outline: none;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(145deg, #FFB6C1, #FF69B4);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 105, 180, .7);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s;
+    outline: none;
 }
-#chat-toggle:hover { transform: scale(1.05); }
+
+#chat-toggle:hover {
+    transform: scale(1.05);
+}
+
+/* On masque la chat-box par défaut */
 #chat-box {
-  background: #111; border-radius: 10px;
-  flex: 1; display: flex; flex-direction: column;
-  overflow: hidden; margin-top: -10px;
+    display: none;
 }
-#chat-messages {
-  flex: 1; padding: 1rem; overflow-y: auto; color: #fff;
-}
-#chat-messages p {
-  margin-bottom: .5rem; line-height: 1.4;
-}
-.user-message {
-  text-align: right; color: #ffd700; margin-bottom: .8rem;
-}
-.bot-message {
-  text-align: left; color: #fff;
-  background: rgba(255,255,255,.05);
-  padding: .5rem; border-radius: 5px;
-  margin-bottom: .8rem; display: inline-block;
-  max-width: 80%;
-}
-#chat-form {
-  display: flex; border-top: 1px solid #333;
-}
-#chat-input {
-  flex: 1; padding: .5rem; border: none;
-  outline: none; color: #333; border-radius: 0 0 0 10px;
-}
-#chat-send {
-  background: #87CEEB; border: none; padding: .5rem 1rem;
-  cursor: pointer; color: #fff; font-weight: bold;
-  border-radius: 0 0 10px 0; transition: background .2s;
-}
-#chat-send:hover { background: #5eb6d1; }
-#chat-box.hidden { display: none; }
+
 @media(max-width:400px) {
-  #chat-container { width: 90%; right: 5%; bottom: 5px; }
+    #chat-container {
+        width: 90%;
+        right: 5%;
+        bottom: 5px;
+    }
 }
 </style>
 
 <div id="chat-container">
-  <!-- Bouton unique : bulle sans texte, juste l’icône -->
-  <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
-
-  <!-- Boîte de dialogue masquée au départ -->
-  <div id="chat-box" class="hidden" role="region" aria-label="Chat IA">
-    <div id="chat-messages" aria-live="polite"></div>
-    <form id="chat-form" aria-label="Formulaire de saisie pour le Tchat IA">
-      <input type="text" id="chat-input" placeholder="Posez votre question..." aria-label="Tapez votre message ici">
-      <button type="submit" id="chat-send" aria-label="Envoyer votre question">➤</button>
-    </form>
-  </div>
+    <a href="mailto:contact.clairvoyancemedium.com@gmail.com" id="chat-toggle" aria-label="Contacter par email"></a>
 </div>
 
 <script>
-// Tracking d'événements (Google Analytics ou fallback console)
-function trackClick(label, category='Chat', value=null){
-  if(typeof gtag==='function'){
-    gtag('event','click',{
-      'event_category':category,
-      'event_label':label,
-      'value':value
+    // Tracking d'événements (Google Analytics ou fallback console)
+    function trackClick(label, category = 'Chat', value = null) {
+        if (typeof gtag === 'function') {
+            gtag('event', 'click', {
+                'event_category': category,
+                'event_label': label,
+                'value': value
+            });
+        } else console.log("Tracking:", label, category, value);
+    }
+
+    // Rendre la bulle déplaçable
+    const chatContainer = document.getElementById('chat-container');
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    chatContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - chatContainer.getBoundingClientRect().left;
+        offsetY = e.clientY - chatContainer.getBoundingClientRect().top;
+        chatContainer.style.cursor = 'grabbing';
     });
-  } else console.log("Tracking:",label,category,value);
-}
 
-// Base de connaissances étendue avec 100 nouvelles entrées
-const knowledgeBase = [
-  { question: "fatigue", answer: "Une fatigue qui vous enchaîne sans répit ? Une ombre pourrait drainer votre essence. Un rituel de purification rallumerait votre vitalité avant qu’elle ne s’éteigne dans l’obscurité." },
-  { question: "cauchemars", answer: "Des cauchemars hantent vos nuits ? Les ténèbres murmurent à votre esprit. Un désenvoûtement pourrait chasser ces ombres avant qu’elles ne vous emprisonnent davantage." },
-  { question: "malchance", answer: "La malchance s’acharne sans raison ? Un sort pourrait voiler votre destin. Un rituel briserait ce cycle avant que votre lumière ne s’efface complètement." },
-  { question: "tristesse", answer: "Une tristesse lourde vous envahit ? Une malédiction pourrait voler votre joie. Un désenvoûtement ramènerait la douceur avant que les ombres ne s’installent pour de bon." },
-  { question: "colère", answer: "Une colère surgit sans cause ? Les ténèbres pourraient attiser vos flammes intérieures. Un rituel apaiserait cette tempête avant qu’elle ne vous consume." },
-  { question: "peur", answer: "Une peur sourde vous étreint ? Un envoûtement pourrait vous traquer en silence. Un désenvoûtement dissiperait ces chaînes avant qu’elles ne vous paralysent." },
-  { question: "anxiété", answer: "L’anxiété vous étouffe sans relâche ? Une ombre pourrait peser sur votre cœur. Un rituel rendrait votre souffle avant que les ténèbres ne vous submergent." },
-  { question: "dépression", answer: "Une dépression vous voile l’âme ? Un sort pourrait éteindre votre éclat. Un désenvoûtement rallumerait votre lumière avant qu’elle ne s’évanouisse dans le néant." },
-  { question: "sommeil", answer: "Le sommeil vous fuit chaque nuit ? Les ombres pourraient veiller sur vous. Un rituel ramènerait la paix avant que votre esprit ne s’épuise dans l’obscurité." },
-  { question: "douleurs", answer: "Des douleurs surgissent sans raison ? Un sort pourrait frapper votre corps. Un désenvoûtement soulagerait cette épreuve avant qu’elle ne vous brise davantage." },
-  { question: "stress", answer: "Un stress incessant vous ronge ? Une force obscure pourrait vous tendre. Un rituel libérerait cette tension avant qu’elle ne vous fasse plier." },
-  { question: "nervosité", answer: "Une nervosité vous agite sans fin ? Les ténèbres pourraient jouer avec vos nerfs. Un désenvoûtement calmerait votre âme avant qu’elle ne s’effrite." },
-  { question: "panique", answer: "Des vagues de panique vous noient ? Un envoûtement pourrait serrer votre cœur. Un rituel briserait cette emprise avant qu’elle ne vous engloutisse." },
-  { question: "insomnie", answer: "L’insomnie vous vole vos nuits ? Une ombre pourrait hanter votre repos. Un désenvoûtement rendrait le calme avant que vous ne sombriez dans l’épuisement." },
-  { question: "migraines", answer: "Des migraines vous assaillent ? Un sort pourrait peser sur votre esprit. Un rituel apaiserait cette douleur avant qu’elle ne vous emprisonne davantage." },
-  { question: "douleur dos", answer: "Un mal de dos vous plie ? Une malédiction pourrait alourdir vos épaules. Un désenvoûtement vous redresserait avant que ce poids ne vous écrase." },
-  { question: "douleur tête", answer: "Des maux de tête vous harcèlent ? Les ombres pourraient frapper votre esprit. Un rituel dissiperait ce tourment avant qu’il ne s’enracine." },
-  { question: "étourdissements", answer: "Des étourdissements vous perdent ? Un sort pourrait brouiller votre équilibre. Un désenvoûtement stabiliserait votre être avant que vous ne chanceliez davantage." },
-  { question: "nausées", answer: "Des nausées vous troublent sans cause ? Une énergie noire pourrait vous intoxiquer. Un rituel purifierait votre corps avant que cette ombre ne s’épaississe." },
-  { question: "appétit", answer: "Votre appétit s’évanouit ? Un envoûtement pourrait affaiblir votre vitalité. Un désenvoûtement raviverait votre force avant qu’elle ne s’efface." },
-  { question: "poids", answer: "Votre corps change sans raison ? Un sort pourrait perturber votre harmonie. Un rituel rétablirait cet équilibre avant que les ténèbres ne le brisent." },
-  { question: "santé", answer: "Une santé fragile vous inquiète ? Une ombre pourrait ronger votre vigueur. Un désenvoûtement ramènerait votre force avant qu’elle ne s’éteigne dans le silence." },
-  { question: "maladie", answer: "Une maladie s’attarde sans explication ? Un envoûtement pourrait l’alimenter. Un rituel chasserait cette ombre avant qu’elle ne vous consume davantage." },
-  { question: "énergie", answer: "Votre énergie s’effrite doucement ? Un sort pourrait vous vider en secret. Un désenvoûtement rechargerait votre flamme avant qu’elle ne vacille pour de bon." },
-  { question: "aura", answer: "Votre aura semble ternie ? Les ténèbres pourraient l’étouffer. Un rituel la purifierait avant qu’elle ne s’évanouisse dans l’obscurité." },
-  { question: "travail", answer: "Des blocages freinent votre carrière ? Une force obscure pourrait saboter vos efforts. Un désenvoûtement ouvrirait la voie avant que vos rêves ne s’effondrent." },
-  { question: "argent", answer: "L’argent vous échappe sans cesse ? Un envoûtement pourrait fermer les portes de l’abondance. Un rituel les rouvrirait avant que la prospérité ne s’éloigne pour toujours." },
-  { question: "échec", answer: "Les échecs s’enchaînent sans fin ? Les ombres pourraient voler votre succès. Un désenvoûtement renverserait ce vent avant qu’il ne vous emporte." },
-  { question: "projet", answer: "Vos projets s’effritent sans raison ? Un sort pourrait les étouffer. Un rituel les relancerait avant qu’ils ne sombrent dans l’oubli." },
-  { question: "motivation", answer: "La motivation vous abandonne ? Une malédiction pourrait éteindre votre feu. Un désenvoûtement le raviverait avant qu’il ne s’éteigne dans l’ombre." },
-  { question: "confiance", answer: "Votre confiance s’efface doucement ? Les ténèbres pourraient vous écraser. Un rituel vous relèverait avant que vous ne tombiez plus bas." },
-  { question: "espoir", answer: "L’espoir s’évanouit peu à peu ? Un envoûtement pourrait voiler votre lumière. Un désenvoûtement le rallumerait avant qu’il ne disparaisse dans le néant." },
-  { question: "futur", answer: "Votre futur semble sombre ? Les sorts pourraient l’obscurcir. Un rituel l’éclairerait avant que les ombres ne le ternissent pour toujours." },
-  { question: "passé", answer: "Le passé vous hante sans relâche ? Une malédiction pourrait vous enchaîner. Un désenvoûtement briserait ces liens avant qu’ils ne vous tirent plus loin." },
-  { question: "présent", answer: "Le présent vous oppresse ? Un sort pourrait alourdir vos jours. Un rituel allégerait ce fardeau avant qu’il ne vous étouffe davantage." },
-  { question: "rêves", answer: "Vos rêves s’assombrissent ? Les ombres pourraient les envahir. Un désenvoûtement apaiserait votre esprit avant qu’elles ne s’y installent." },
-  { question: "intuition", answer: "Votre intuition vacille ? Un envoûtement pourrait brouiller vos sens. Un rituel clarifierait cette voix avant qu’elle ne s’éteigne dans le silence." },
-  { question: "vision", answer: "Votre vision de la vie s’embrouille ? Les ténèbres pourraient vous aveugler. Un désenvoûtement rendrait cette clarté avant qu’elle ne s’efface." },
-  { question: "destin", answer: "Votre destin semble figé ? Un sort pourrait le retenir. Un rituel le libérerait avant que les ombres ne le scellent." },
-  { question: "solitude", answer: "La solitude vous enveloppe sans raison ? Un envoûtement pourrait repousser les autres. Un rituel attirerait la chaleur avant qu’elle ne s’éloigne pour toujours." },
-  { question: "jalousie", answer: "La jalousie vous cerne ? Elle pourrait nourrir des sorts contre vous. Une protection spirituelle vous préserverait avant que ces ombres ne grandissent." },
-  { question: "amis", answer: "Vos amis s’éloignent sans explication ? Un sort pourrait trancher ces liens. Un rituel les restaurerait avant qu’ils ne se perdent dans l’ombre." },
-  { question: "ennemis", answer: "Des ennemis invisibles vous guettent ? Leur venin pourrait envoûter votre vie. Un désenvoûtement les neutraliserait avant qu’ils ne frappent plus fort." },
-  { question: "amour", answer: "L’amour s’effrite sans raison ? Une ombre pourrait l’éteindre. Un rituel rallumerait cette flamme avant qu’elle ne sombre dans le froid." },
-  { question: "séparation", answer: "Une séparation vous déchire soudainement ? Les ténèbres pourraient briser vos liens. Un désenvoûtement les réparerait avant qu’ils ne s’effacent." },
-  { question: "célibat", answer: "Le célibat s’éternise malgré vos désirs ? Un sort pourrait repousser l’amour. Un rituel l’attirerait avant que la solitude ne devienne votre ombre." },
-  { question: "couple", answer: "Votre couple vacille sans cause ? Une force obscure pourrait s’y glisser. Un désenvoûtement sauverait cette union avant qu’elle ne se brise." },
-  { question: "famille", answer: "La discorde ronge votre famille ? Un envoûtement pourrait semer ce chaos. Un rituel réunirait vos proches avant que les ombres ne les séparent." },
-  { question: "enfants", answer: "Vos enfants souffrent en silence ? Un sort pourrait les atteindre. Un désenvoûtement les protégerait avant que les ténèbres ne les enveloppent." },
-  { question: "parents", answer: "Vos parents ploient sous un poids invisible ? Une malédiction pourrait les accabler. Un rituel les libérerait avant que les ombres ne les consument." },
-  { question: "maison", answer: "Un malaise hante votre foyer ? Une énergie noire pourrait s’y tapir. Un désenvoûtement purifierait cet espace avant qu’il ne devienne une prison." },
-  { question: "déménagement", answer: "Des troubles suivent votre déménagement ? Un sort pourrait vous traquer. Un rituel vous affranchirait avant que cette ombre ne s’installe." },
-  { question: "voisins", answer: "Vos voisins distillent l’hostilité ? Leur jalousie pourrait envoûter votre paix. Une protection spirituelle vous préserverait avant que leur venin ne s’épaississe." },
-  { question: "bruit", answer: "Des bruits étranges troublent votre calme ? Les ombres pourraient vous harceler. Un rituel apaiserait cet espace avant qu’elles ne vous submergent." },
-  { question: "objets", answer: "Des objets disparaissent ou bougent ? Un sort pourrait semer ce désordre. Un désenvoûtement ramènerait l’ordre avant que le chaos ne s’amplifie." },
-  { question: "animaux", answer: "Vos animaux s’agitent ou faiblissent ? Une ombre pourrait les atteindre. Un rituel les sauverait avant que les ténèbres ne les consument." },
-  { question: "plantes", answer: "Vos plantes dépérissent sans soin ? Une énergie noire pourrait les étouffer. Un désenvoûtement raviverait leur éclat avant qu’il ne s’éteigne." },
-  { question: "accident", answer: "Les accidents s’accumulent autour de vous ? Un sort pourrait vous menacer. Une protection spirituelle vous préserverait avant que le danger ne s’aggrave." },
-  { question: "voiture", answer: "Votre voiture multiplie les pannes ? Les ombres pourraient vous immobiliser. Un rituel vous remettrait en route avant que tout ne s’arrête." },
-  { question: "technologie", answer: "La technologie vous trahit sans cesse ? Un envoûtement pourrait brouiller votre vie. Un désenvoûtement rétablirait ce flux avant que vous ne soyez coupé du monde." },
-  { question: "chance", answer: "La chance vous tourne le dos ? Une malédiction pourrait la chasser. Un rituel la rappellerait avant qu’elle ne s’éloigne pour toujours." },
-  { question: "succès", answer: "Le succès vous échappe malgré vos efforts ? Les ténèbres pourraient le bloquer. Un désenvoûtement ouvrirait cette porte avant que vos rêves ne s’effacent." },
-  { question: "prospérité", answer: "La prospérité vous fuit sans relâche ? Un sort pourrait fermer ces chemins. Un rituel les dégagerait avant que l’abondance ne vous abandonne." },
-  { question: "harmonie", answer: "L’harmonie s’effrite dans votre vie ? Les ombres pourraient semer ce trouble. Un désenvoûtement la restaurerait avant qu’elle ne se brise totalement." },
-  { question: "paix", answer: "La paix vous échappe chaque jour ? Un envoûtement pourrait la voler. Un rituel la ramènerait avant que les ténèbres ne vous engloutissent." },
-  { question: "joie", answer: "La joie s’efface sans raison ? Les sorts pourraient l’éteindre. Un désenvoûtement rallumerait votre éclat avant qu’il ne sombrer dans l’ombre." },
-  { question: "bonjour", answer: "Bonjour ! Et si demain brillait davantage ? Les ombres qui vous pèsent pourraient s’effacer avec un rituel. Pourquoi laisser l’obscurité gagner du terrain aujourd’hui ?" },
-  { question: "envoûtement", answer: "Un envoûtement pourrait tisser ses fils autour de vous. Chaque instant sans agir le renforce. Un désenvoûtement trancherait ces liens avant qu’ils ne vous emprisonnent." },
-  { question: "protection", answer: "Sans bouclier spirituel, les sorts vous guettent en silence. Une protection pourrait vous sauver des ombres. Pourquoi attendre qu’elles frappent plus fort ?" },
-  { question: "symptômes", answer: "Fatigue, peur, échecs… Ces signes murmurent un sortilège. Plus vous tardez, plus ils s’enracinent. Une détection pourrait éclairer votre chemin avant qu’il ne s’obscurcisse." },
-  { question: "détection", answer: "Et si une ombre vous touchait sans que vous le sachiez ? Une détection révélerait cette vérité. Pourquoi vivre dans le doute alors que la clarté est à portée ?" },
-  { question: "frederick", answer: "Frederick, maître des énergies, brise les sorts les plus noirs. Son savoir pourrait être votre lumière. Pourquoi remettre à demain cette délivrance qui vous appelle ?" },
-  { question: "durée", answer: "Quelques jours suffisent pour changer tout. Chaque heure perdue nourrit les ombres. Un rituel pourrait vous libérer avant que votre vie ne s’alourdisse davantage." },
-  { question: "conseils", answer: "Un poids inexplicable vous suit ? Les ténèbres pourraient s’y cacher. Une purification chasserait ce fardeau avant qu’il ne vous étouffe complètement." },
-  { question: "mauvais oeil", answer: "Le mauvais œil pourrait ternir vos jours. Plus il reste, plus il ronge. Un rituel le dissiperait avant que vos rêves ne s’effacent dans l’ombre." },
-  { question: "envoutement familial", answer: "Votre famille ploie sous une ombre étrange ? Un sort collectif pourrait vous lier. Un désenvoûtement libérerait tous avant que les ténèbres ne s’épaississent." },
-  { question: "chance jeux", answer: "La chance vous fuit dans les jeux ? Une malédiction pourrait voiler votre étoile. Un rituel la raviverait avant qu’elle ne s’éteigne pour de bon." },
-  { question: "enfant malade", answer: "Un enfant souffrant sans cause ? Une ombre pourrait l’affaiblir. Un rituel le protégerait avant que les ténèbres ne le plongent plus loin." },
-  { question: "malediction", answer: "Une malédiction vous enserre doucement ? Chaque jour la renforce. Un désenvoûtement la briserait avant qu’elle ne scelle votre destin." },
-  { question: "memoire", answer: "Votre mémoire s’effrite sans raison ? Un sort pourrait brouiller vos pensées. Un rituel rendrait cette clarté avant qu’elle ne s’évanouisse." },
-  { question: "concentration", answer: "Votre esprit s’éparpille sans cesse ? Les ombres pourraient le disperser. Un désenvoûtement le recentrerait avant qu’il ne se perde dans le vide." },
-  { question: "decision", answer: "Chaque décision vous échappe ? Un envoûtement pourrait vous figer. Un rituel vous rendrait cette liberté avant que l’indécision ne vous enchaîne." },
-  { question: "yeux", answer: "Votre vue se trouble sans cause ? Les ténèbres pourraient voiler vos yeux. Un désenvoûtement clarifierait votre regard avant qu’il ne s’obscurcisse." },
-  { question: "audition", answer: "Des murmures hantent vos oreilles ? Un sort pourrait s’y glisser. Un rituel ferait taire ces ombres avant qu’elles ne vous assourdissent." },
-  { question: "parole", answer: "Les mots vous manquent soudain ? Une malédiction pourrait museler votre voix. Un désenvoûtement la libérerait avant qu’elle ne s’éteigne." },
-  { question: "stress travail", answer: "Le stress au travail vous étouffe ? Une ombre pourrait peser sur vos ambitions. Un rituel allégerait ce fardeau avant qu’il ne vous brise." },
-  { question: "blocage", answer: "Un blocage inexplicable vous freine ? Les ténèbres pourraient vous retenir. Un désenvoûtement ouvrirait la voie avant que tout ne s’effondre." },
-  { question: "relations", answer: "Vos relations s’effritent sans raison ? Un sort pourrait trancher ces liens. Un rituel les restaurerait avant qu’ils ne s’effacent dans l’ombre." },
-  { question: "reussite", answer: "La réussite vous glisse entre les doigts ? Une malédiction pourrait la bloquer. Un désenvoûtement la ramènerait avant qu’elle ne s’éloigne pour toujours." },
-  { question: "abandon", answer: "Un sentiment d’abandon vous ronge ? Les ombres pourraient vous isoler. Un rituel rallumerait ces connexions avant que la solitude ne vous enveloppe." },
-  { question: "desespoir", answer: "Le désespoir vous envahit doucement ? Un envoûtement pourrait l’alimenter. Un désenvoûtement raviverait l’espoir avant qu’il ne sombre dans le vide." },
-  { question: "lumiere", answer: "La lumière semble s’éloigner de vous ? Les ténèbres pourraient l’étouffer. Un rituel la rappellerait avant qu’elle ne disparaisse dans l’obscurité." },
-  { question: "ombre", answer: "Une ombre semble vous suivre ? Elle pourrait envoûter votre vie. Un désenvoûtement la chasserait avant qu’elle ne vous enveloppe davantage." },
-  { question: "poids esprit", answer: "Un poids alourdit votre esprit ? Un sort pourrait le retenir. Un rituel l’allégerait avant qu’il ne vous écrase complètement." },
-  { question: "confusion", answer: "La confusion brouille vos pensées ? Une malédiction pourrait vous égarer. Un désenvoûtement clarifierait tout avant que vous ne vous perdiez." },
-  { question: "douleur corps", answer: "Votre corps souffre sans raison ? Une ombre pourrait l’attaquer. Un rituel apaiserait cette peine avant qu’elle ne s’enracine." },
-  { question: "perte", answer: "Une perte inexplicable vous frappe ? Les ténèbres pourraient la causer. Un désenvoûtement ramènerait l’équilibre avant que tout ne s’effrite." },
-  { question: "isolement", answer: "L’isolement vous gagne peu à peu ? Un sort pourrait vous couper du monde. Un rituel vous reconnecterait avant que la solitude ne devienne éternelle." },
-  { question: "rejet", answer: "Le rejet vous entoure sans cesse ? Une malédiction pourrait l’attirer. Un désenvoûtement dissoudrait ce voile avant qu’il ne vous enferme." },
-  { question: "douleur cœur", answer: "Une douleur au cœur vous serre ? Les ombres pourraient l’étreindre. Un rituel libérerait cette peine avant qu’elle ne vous brise." },
-  { question: "esprit lourd", answer: "Votre esprit s’alourdit chaque jour ? Un envoûtement pourrait le charger. Un désenvoûtement l’allégerait avant qu’il ne sombre davantage." },
-  { question: "injustice", answer: "L’injustice vous poursuit sans fin ? Une ombre pourrait la tisser. Un rituel rétablirait l’équilibre avant que les ténèbres ne gagnent." },
-  { question: "perte emploi", answer: "Un emploi vous échappe soudain ? Un sort pourrait bloquer vos chances. Un désenvoûtement rouvrirait ce chemin avant qu’il ne se ferme." },
-  { question: "conflit", answer: "Les conflits surgissent sans raison ? Les ombres pourraient les attiser. Un rituel apaiserait ces flammes avant qu’elles ne vous consument." },
-  { question: "douleur jambe", answer: "Une douleur aux jambes vous ralentit ? Un envoûtement pourrait vous entraver. Un rituel vous remettrait en marche avant que vous ne trébuchiez." },
-  { question: "douleur ventre", answer: "Un mal au ventre vous tourmente ? Les ténèbres pourraient l’agiter. Un désenvoûtement calmerait ce feu avant qu’il ne s’intensifie." },
-  { question: "frissons", answer: "Des frissons vous traversent sans cause ? Une ombre pourrait vous frôler. Un rituel chasserait ce froid avant qu’il ne vous glace." },
-  { question: "froid", answer: "Un froid inexplicable vous envahit ? Un sort pourrait geler votre âme. Un désenvoûtement ramènerait la chaleur avant qu’elle ne s’éteigne." },
-  { question: "chaleur", answer: "Une chaleur étrange vous brûle ? Les ombres pourraient vous enflammer. Un rituel apaiserait ce feu avant qu’il ne vous dévore." },
-  { question: "sueurs", answer: "Des sueurs vous surprennent sans effort ? Un envoûtement pourrait vous troubler. Un désenvoûtement rétablirait votre calme avant que cela ne s’aggrave." },
-  { question: "tremblements", answer: "Votre corps tremble sans raison ? Une malédiction pourrait l’agiter. Un rituel stabiliserait votre être avant que les ombres ne l’ébranlent davantage." },
-  { question: "palpitations", answer: "Votre cœur s’emballe sans cause ? Les ténèbres pourraient le serrer. Un désenvoûtement apaiserait ce rythme avant qu’il ne vous épuise." },
-  { question: "essoufflement", answer: "Le souffle vous manque soudain ? Un sort pourrait l’étouffer. Un rituel rendrait votre air avant que les ombres ne vous asphyxient." },
-  { question: "douleur poitrine", answer: "Une douleur à la poitrine vous oppresse ? Une ombre pourrait l’alourdir. Un désenvoûtement libérerait ce poids avant qu’il ne vous écrase." },
-  { question: "fatigue mentale", answer: "Votre esprit s’épuise sans fin ? Un envoûtement pourrait le vider. Un rituel raviverait votre clarté avant qu’elle ne s’efface." },
-  { question: "lenteur", answer: "Une lenteur vous ralentit chaque jour ? Les ténèbres pourraient vous freiner. Un désenvoûtement accélérerait vos pas avant que vous ne stagniez." },
-  { question: "douleur bras", answer: "Une douleur aux bras vous limite ? Un sort pourrait vous entraver. Un rituel rendrait votre force avant que les ombres ne vous paralysent." },
-  { question: "douleur cou", answer: "Un mal au cou vous raidit ? Une malédiction pourrait vous peser. Un désenvoûtement vous relâcherait avant que ce fardeau ne s’alourdisse." },
-  { question: "sensation etrange", answer: "Une sensation étrange vous suit ? Les ombres pourraient vous frôler. Un rituel chasserait ce voile avant qu’il ne vous enveloppe davantage." },
-  { question: "pression", answer: "Une pression invisible vous écrase ? Un envoûtement pourrait vous serrer. Un désenvoûtement vous libérerait avant qu’elle ne vous étouffe." },
-  { question: "douleur yeux", answer: "Vos yeux souffrent sans raison ? Les ténèbres pourraient les voiler. Un rituel clarifierait votre vue avant qu’elle ne s’obscurcisse." },
-  { question: "bourdonnements", answer: "Des bourdonnements troublent vos oreilles ? Un sort pourrait les murmurer. Un désenvoûtement ferait taire ces ombres avant qu’elles ne vous assourdissent." },
-  { question: "vertiges", answer: "Des vertiges vous désorientent ? Une malédiction pourrait vous faire vaciller. Un rituel stabiliserait votre monde avant que vous ne tombiez." },
-  { question: "faiblesse", answer: "Une faiblesse vous envahit sans cause ? Les ombres pourraient vous vider. Un désenvoûtement raviverait votre force avant qu’elle ne s’éteigne." },
-  { question: "douleur articulations", answer: "Vos articulations grincent sans raison ? Un sort pourrait les raidir. Un rituel les assouplirait avant que les ténèbres ne les figent." },
-  { question: "douleur muscles", answer: "Vos muscles souffrent sans effort ? Une ombre pourrait les tendre. Un désenvoûtement relâcherait ce nœud avant qu’il ne s’aggrave." },
-  { question: "crampe", answer: "Des crampes vous saisissent soudain ? Un envoûtement pourrait les provoquer. Un rituel apaiserait ce mal avant qu’il ne vous immobilise." },
-  { question: "douleur peau", answer: "Votre peau vous brûle ou démange ? Les ténèbres pourraient l’attaquer. Un désenvoûtement calmerait ce feu avant qu’il ne s’étende." },
-  { question: "tension", answer: "Une tension vous serre sans relâche ? Un sort pourrait vous enlacer. Un rituel dissoudrait ce lien avant qu’il ne vous étouffe." },
-  { question: "douleur gorge", answer: "Un mal à la gorge vous étouffe ? Une malédiction pourrait vous museler. Un désenvoûtement libérerait votre souffle avant qu’il ne s’éteigne." },
-  { question: "mal etre", answer: "Un mal-être vous ronge en silence ? Les ombres pourraient l’alimenter. Un rituel ramènerait la paix avant qu’il ne vous engloutisse." },
-  { question: "desorientation", answer: "Vous vous sentez perdu sans raison ? Un envoûtement pourrait brouiller votre chemin. Un désenvoûtement éclaircirait votre route avant que vous ne vous égariez." },
-  { question: "douleur pieds", answer: "Vos pieds souffrent à chaque pas ? Une ombre pourrait les alourdir. Un rituel allégerait vos marches avant que vous ne trébuchiez." },
-  { question: "douleur mains", answer: "Vos mains tremblent ou faiblissent ? Un sort pourrait les entraver. Un désenvoûtement rendrait leur force avant que les ombres ne les paralysent." },
-  { question: "douleur dents", answer: "Vos dents vous tourmentent sans cause ? Les ténèbres pourraient les ronger. Un rituel apaiserait ce mal avant qu’il ne s’enracine." },
-  { question: "douleur oreilles", answer: "Vos oreilles sifflent ou souffrent ? Un envoûtement pourrait les troubler. Un désenvoûtement calmerait ce bruit avant qu’il ne vous submerge." },
-  { question: "douleur nez", answer: "Votre nez vous gêne sans raison ? Une ombre pourrait l’irriter. Un rituel purifierait cet air avant que les ténèbres ne s’y glissent." },
-  { question: "douleur visage", answer: "Votre visage souffre sans explication ? Un sort pourrait l’assombrir. Un désenvoûtement rendrait sa lumière avant que les ombres ne s’y installent." },
-  { question: "douleur corps entier", answer: "Tout votre corps gémit sans cause ? Une malédiction pourrait l’enlacer. Un rituel le libérerait avant que ce poids ne vous écrase totalement." },
-  { question: "sensation regard", answer: "Vous sentez un regard invisible ? Les ombres pourraient vous épier. Un désenvoûtement chasserait cette présence avant qu’elle ne vous cerne." },
-  { question: "douleur inexplicable", answer: "Une douleur défie toute logique ? Un envoûtement pourrait l’attiser. Un rituel dissoudrait ce mystère avant qu’il ne vous ronge davantage." },
-  { question: "peur nuit", answer: "La nuit vous effraie sans raison ? Les ténèbres pourraient vous guetter. Un rituel apaiserait ces heures avant qu’elles ne vous emprisonnent." },
-  { question: "reveil fatigue", answer: "Vous vous réveillez déjà épuisé ? Un sort pourrait voler votre repos. Un désenvoûtement raviverait vos matins avant qu’ils ne s’assombrissent." },
-  { question: "sensation oppression", answer: "Une oppression vous serre le cœur ? Une ombre pourrait vous étouffer. Un rituel libérerait cet espace avant que les ténèbres ne vous écrasent." },
-  { question: "douleur chronique", answer: "Une douleur s’éternise sans fin ? Un envoûtement pourrait la nourrir. Un désenvoûtement briserait ce cycle avant qu’il ne vous enchaîne." },
-  { question: "perturbation", answer: "Des perturbations troublent votre vie ? Les ombres pourraient les semer. Un rituel ramènerait l’ordre avant que le chaos ne s’installe." },
-  { question: "sentiment etrange", answer: "Un sentiment étrange vous hante ? Une malédiction pourrait vous frôler. Un désenvoûtement chasserait ce voile avant qu’il ne vous enveloppe." },
-  { question: "douleur soudaine", answer: "Une douleur surgit sans prévenir ? Un sort pourrait vous frapper. Un rituel apaiserait ce coup avant qu’il ne s’intensifie." },
-  { question: "sensation vide", answer: "Un vide vous envahit doucement ? Les ténèbres pourraient le creuser. Un désenvoûtement remplirait ce creux avant qu’il ne vous engloutisse." },
-  { question: "peur constante", answer: "Une peur vous suit partout ? Un envoûtement pourrait la tisser. Un rituel dissoudrait ce fil avant qu’il ne vous emprisonne." },
-  { question: "trouble", answer: "Un trouble inexplicable vous ronge ? Les ombres pourraient l’attiser. Un désenvoûtement clarifierait tout avant que le brouillard ne s’épaississe." },
-  { question: "douleur persistante", answer: "Une douleur ne vous lâche pas ? Une malédiction pourrait l’ancrer. Un rituel la déracinerait avant qu’elle ne vous brise." },
-  { question: "sentiment perdu", answer: "Vous vous sentez perdu dans votre vie ? Un sort pourrait brouiller votre étoile. Un désenvoûtement rallumerait votre guide avant qu’il ne s’éteigne." },
-];
-// Correspondance via distance de Levenshtein
-function levenshtein(a,b){
-  const an=a?a.length:0,bn=b?b.length:0; if(!an)return bn; if(!bn)return an;
-  let matrix=[]; for(let i=0;i<=bn;i++){matrix[i]=[i]} for(let j=0;j<=an;j++){matrix[0][j]=j}
-  for(let i=1;i<=bn;i++){for(let j=1;j<=an;j++){
-    const cost=b.charAt(i-1)===a.charAt(j-1)?0:1;
-    matrix[i][j]=Math.min(matrix[i-1][j]+1,matrix[i][j-1]+1,matrix[i-1][j-1]+cost)
-  }}
-  return matrix[bn][an]
-}
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
 
-function findBestMatch(userInput){
-  userInput=userInput.toLowerCase(); let bestScore=1e9,bestAnswer=null;
-  knowledgeBase.forEach(item=>{
-    const dist=levenshtein(userInput,item.question.toLowerCase());
-    if(dist<bestScore){bestScore=dist;bestAnswer=item.answer}
-  });
-  return bestScore>5?null:bestAnswer
-}
+        // Garder la bulle dans la fenêtre
+        const maxX = window.innerWidth - chatContainer.offsetWidth;
+        const maxY = window.innerHeight - chatContainer.offsetHeight;
+        chatContainer.style.left = Math.min(maxX, Math.max(0, x)) + 'px';
+        chatContainer.style.top = Math.min(maxY, Math.max(0, y)) + 'px';
+    });
 
-// Initialisation du Tchat avec déplaçabilité
-(function(){
-  const chatContainer=document.getElementById("chat-container"),
-        chatToggle=document.getElementById("chat-toggle"),
-        chatBox=document.getElementById("chat-box"),
-        chatForm=document.getElementById("chat-form"),
-        chatInput=document.getElementById("chat-input"),
-        chatMessages=document.getElementById("chat-messages");
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        chatContainer.style.cursor = 'move';
+    });
 
-  // Ouvrir/fermer le chat
-  chatToggle.addEventListener("click",()=>{
-    const isHidden=chatBox.classList.contains("hidden");
-    chatBox.classList.toggle("hidden");
-    chatToggle.setAttribute("aria-expanded",isHidden?"true":"false");
-    if(isHidden){
-      trackClick("ChatOpen","Interaction",0);
-      setTimeout(()=>chatInput.focus(),300);
-    } else trackClick("ChatClose","Interaction",0);
-  });
-
-  // Gestion de l'envoi des messages
-  chatForm.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    const userMsg=chatInput.value.trim();
-    if(!userMsg)return;
-    addMessage(userMsg,"user-message");
-    trackClick("ChatMessage","Interaction",0);
-    chatInput.value="";
-    const answer=findBestMatch(userMsg);
-    addMessage(answer?answer:"Je ne comprends pas… Reformulez, et découvrez vite si un sort vous touche (50€) : https://buy.stripe.com/6oE3cAevG5mLgpi7tL","bot-message");
-  });
-
-  function addMessage(txt,cls){
-    const p=document.createElement("p");
-    p.className=cls; p.textContent=txt;
-    chatMessages.appendChild(p);
-    chatMessages.scrollTop=chatMessages.scrollHeight;
-  }
-
-  // Déplaçabilité de la bulle
-  let isDragging=false, currentX, currentY, initialX, initialY;
-  
-  chatContainer.addEventListener("mousedown",startDragging);
-  chatContainer.addEventListener("touchstart",startDragging,{passive:false});
-
-  function startDragging(e){
-    isDragging=true;
-    if(e.type==="mousedown"){
-      initialX=e.clientX-currentX;
-      initialY=e.clientY-currentY;
-    } else if(e.type==="touchstart"){
-      initialX=e.touches[0].clientX-currentX;
-      initialY=e.touches[0].clientY-currentY;
-    }
-    document.addEventListener("mousemove",drag);
-    document.addEventListener("touchmove",drag,{passive:false});
-    document.addEventListener("mouseup",stopDragging);
-    document.addEventListener("touchend",stopDragging);
-  }
-
-  function drag(e){
-    if(!isDragging)return;
-    e.preventDefault();
-    if(e.type==="mousemove"){
-      currentX=e.clientX-initialX;
-      currentY=e.clientY-initialY;
-    } else if(e.type==="touchmove"){
-      currentX=e.touches[0].clientX-initialX;
-      currentY=e.touches[0].clientY-initialY;
-    }
-    chatContainer.style.right="auto";
-    chatContainer.style.bottom="auto";
-    chatContainer.style.left=`${currentX}px`;
-    chatContainer.style.top=`${currentY}px`;
-  }
-
-  function stopDragging(){
-    isDragging=false;
-    document.removeEventListener("mousemove",drag);
-    document.removeEventListener("touchmove",drag);
-    document.removeEventListener("mouseup",stopDragging);
-    document.removeEventListener("touchend",stopDragging);
-  }
-
-  // Initialisation de la position
-  currentX=window.innerWidth-chatContainer.offsetWidth-20;
-  currentY=window.innerHeight-chatContainer.offsetHeight-20;
-  chatContainer.style.left=`${currentX}px`;
-  chatContainer.style.top=`${currentY}px`;
-})();
+    // Tracking du clic sur la bulle
+    document.getElementById('chat-toggle').addEventListener('click', () => {
+        trackClick('Bulle Contact Email');
+    });
 </script>
   
   <script nonce="xai-48273">
