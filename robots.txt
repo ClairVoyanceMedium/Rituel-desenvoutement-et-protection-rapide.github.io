@@ -1,42 +1,100 @@
-# Indique aux robots que toutes les pages peuvent être explorées, sauf restrictions spécifiées
+# Robots.txt optimisé pour 2025 - Surpasse l’excellence
+# Conçu pour la francophonie, IA, Google IA, assistants vocaux et SEO avancé
+# Site : https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/
+# Dernière mise à jour : 09/03/2025 14:00 GMT
+# Note : Tester avec Google Search Console et robotstxt.org pour valider
+
+##########################
+# Autorisation Générale  #
+##########################
 User-agent: *
-Disallow: /admin/
-Disallow: /tmp/
+Disallow: /private/          # Répertoires privés (ex. admin, scripts)
+Disallow: /temp/             # Dossiers temporaires
+Disallow: /*?*               # Évite contenu dupliqué (paramètres URL)
+Allow: /*.css$               # CSS pour rendu optimal (hérité par tous)
+Allow: /*.js$                # JS essentiel (hérité par tous)
+Allow: /*.pdf$               # Autorise les PDF stratégiques (ex. guides)
+Allow: /                     # Autorisation par défaut
+
+########################################
+# Googlebot (y compris Google IA 2025) #
+########################################
+User-agent: Googlebot
+Disallow: /private/
+Disallow: /temp/
+Allow: /rituels/
+Allow: /protection/
+Allow: /desenvoutement/
+
+###########################################
+# Assistants vocaux                       #
+###########################################
+User-agent: Googlebot-Voice
+Disallow: /private/
+Disallow: /temp/
+Allow: /faq/
+Allow: /rituels-simples/
+Allow: /conseils/
+User-agent: Amazonbot        # Hypothétique pour Alexa
+Disallow: /private/
+Disallow: /temp/
+Allow: /faq/
+Allow: /conseils/
+User-agent: Applebot         # Hypothétique pour Siri
+Disallow: /private/
+Disallow: /temp/
+Allow: /faq/
+Allow: /conseils/
+
+###########################################
+# Bing (francophonie hors Google)         #
+###########################################
+User-agent: Bingbot
+Disallow: /private/
+Disallow: /temp/
+
+#################################
+# Blocage des robots indésirables #
+#################################
+User-agent: AhrefsBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+User-agent: MJ12bot
+Disallow: /
+
+##################################################
+# Partenaires et analyseurs Google               #
+##################################################
+User-agent: Mediapartners-Google
+Disallow: /private/
+User-agent: AdsBot-Google
 Disallow: /private/
 
-# Bloquer des URL avec paramètres inutiles pour l'indexation
-Disallow: /*?debug=true
-Disallow: /*?preview=true
+##################################################
+# Crawlers IA émergents (anticipation 2025)     #
+##################################################
+User-agent: xAI-Crawler
+Disallow: /private/
+User-agent: OpenAI-Crawler
+Disallow: /private/
+User-agent: AnthropicBot
+Disallow: /private/
+User-agent: Qwantify         # Francophonie
+Disallow: /private/
 
-# Permettre les fichiers nécessaires au bon affichage et fonctionnement
-Allow: /css/
-Allow: /js/
-Allow: /images/
+##################################################
+# Optimisation avancée (mobile-first)           #
+##################################################
+User-agent: Googlebot-Mobile
+Disallow: /private/
+Disallow: /temp/
+Allow: /rituels/
+Allow: /protection/
+Allow: /desenvoutement/
 
-# Référencement des ressources multimédias
-Allow: *.png
-Allow: *.jpg
-Allow: *.webp
-Allow: *.css
-Allow: *.js
-
-# Fournir le chemin du fichier sitemap pour une meilleure indexation
-Sitemap: https://www.clairvoyancemedium.com/sitemap.xml
-
-# Autorisation pour les robots Google et Bing pour maximiser les campagnes publicitaires
-User-agent: Googlebot
-Allow: /
-User-agent: AdsBot-Google
-Allow: /
-User-agent: Bingbot
-Allow: /
-
-# Bloquer les robots nuisibles ou non désirés
-User-agent: BadBot
-Disallow: /
-User-agent: EvilScraper
-Disallow: /
-
-# Empêcher l'exploration des fichiers sensibles
-Disallow: /config/
-Disallow: /backup/
+##################
+# Sitemap et crawl #
+##################
+Sitemap: https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/sitemap.xml
+Crawl-delay: 0.5
