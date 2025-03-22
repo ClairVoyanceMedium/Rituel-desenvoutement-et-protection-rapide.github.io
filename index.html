@@ -989,7 +989,7 @@
 
     function getResponse(userMsg) {
       const lowerMsg = userMsg.toLowerCase().trim();
-      if (["d'accord", "daccord", "oui", "ok"].includes(lowerMsg)) {
+      if (["d'accord", "daccord", "ouais", "oué", "oui", "ok"].includes(lowerMsg)) {
         return "Je suis là pour vous aider";
       }
       if (lowerMsg === "bonjour") {
@@ -1000,7 +1000,7 @@
         nonUnderstoodCount = 0;
         trackClick("Thanks", "Interaction", 0);
         return translations.thanks;
-      } else if (["au revoir", "aurevoir", "à bientôt", "bye"].includes(lowerMsg)) {
+      } else if (["au revoir", "aurevoir", "à bientôt", "bonne journée", "salut", "bybye", "bye"].includes(lowerMsg)) {
         nonUnderstoodCount = 0;
         trackClick("Goodbye", "Interaction", 0);
         return translations.goodbye;
