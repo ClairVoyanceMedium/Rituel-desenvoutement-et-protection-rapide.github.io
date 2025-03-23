@@ -843,17 +843,14 @@ const translations = {
     goodbye: "À très bientôt et n'oubliez jamais qu'on sera toujours à votre disposition, nuits et jours ! Nous serons toujours plus fort que le mal !",
     notUnderstood: "Je n’ai pas bien compris votre question. Pourriez-vous la reformuler s’il vous plaît, peut-être avec d’autres mots, pour m’aider à mieux la comprendre ?",
     notUnderstoodAfter: "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement profond et complet pour rétablir l’équilibre de toutes vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel total.",
-    grave: "Votre situation semble extrêmement préoccupante. Il est impératif d'agir immédiatement. Je vous recommande de prendre les mesures nécessaires sans attendre. Ne laissez plus l'ombre prendre le dessus eternelement.",
+    grave: "Votre situation semble extrêmement préoccupante. Il est impératif d'agir immédiatement. Je vous recommande de prendre les mesures nécessaires sans attendre. Ne laissez plus l'ombre prendre le dessus éternellement.",
     moreInfo: "Souhaitez-vous en savoir plus sur ce sujet ? (oui/non)",
     agree: "D’accord, n’hésitez pas à poser d’autres questions.",
-    followUpOptions: "Que voulez-vous faire maintenant ? Tapez : 1 pour plus de détails, 2 pour réserver une consultation, 3 pour explorer un autre sujet.",
-    proactivePrompt: "D’accord, souhaitez-vous explorer un autre sujet comme la protection, les tarifs ou autre chose ?",
-    siteDefaultDetail: "Ce sujet touche à des aspects profonds de votre bien-être spirituel. Nos experts, comme Frederick, utilisent des rituels puissants pour vous libérer des influences négatives et restaurer votre énergie. Pour en savoir plus ou agir, contactez-nous à contact.clairvoyancemedium@gmail.com ou visitez ClairvoyanceMedium.com."
 };
 
 // Base de connaissances (exemple simplifié)
 const knowledgeBase = [
-    { question: "Fatigue|Lassitude|Torpeur", answer: "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairvoyanceMedium.com pour retrouver ta vitalité. Bénéfices : regain d'énergie et clarté retrouvée.", detailedAnswer: "Cette fatigue écrasante est bien plus qu’un simple épuisement physique. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée." },
+    { question: "Fatigue|Lassitude|Torpeur", answer: "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairVoyanceMedium.com pour retrouver ta vitalité. Bénéfices : regain d'énergie et clarté retrouvée.", detailedAnswer: "Cette fatigue écrasante est bien plus qu’un simple épuisement physique. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée." },
     { question: "Cauchemars|Visions|NuitsHantées", answer: "Ces cauchemars ne sont pas de simples rêves, ils sont le résultat d'une présence maléfique ; laisse Frederick chasser ces ombres pour t'offrir des nuits paisibles. Bénéfices : sommeil réparateur et sérénité nocturne.", detailedAnswer: "Tes cauchemars ne sont pas anodins : ils peuvent être des manifestations d’une présence maléfique infiltrant ton esprit pendant ton sommeil. Frederick, avec ses 25 ans d’expérience, maîtrise des rituels puissants pour chasser ces ombres et purifier ton espace de repos. Une fois libéré de ces intrusions, tu retrouveras des nuits paisibles et un sommeil réparateur, essentiel à ton bien-être. Bénéfices : sommeil réparateur et sérénité nocturne." },
 ];
 
@@ -870,7 +867,6 @@ const processedKnowledgeBase = knowledgeBase.map(item => ({
 
 let nonUnderstoodCount = 0;
 let awaitingMoreInfo = false;
-let awaitingFollowUp = false;
 let lastMatchedItem = null;
 let conversationHistory = [];
 
@@ -897,36 +893,17 @@ function getResponse(userMsg) {
     const lowerMsg = userMsg.toLowerCase().trim();
     conversationHistory.push(lowerMsg);
 
-    // Gestion des options de suivi
-    if (awaitingFollowUp) {
-        awaitingFollowUp = false;
-        if (lowerMsg === "1") {
-            trackClick("FollowUpMoreDetails", "Interaction", 0);
-            return `${lastMatchedItem.detailedAnswer} ${translations.followUpOptions}`;
-        } else if (lowerMsg === "2") {
-            trackClick("FollowUpConsultation", "Interaction", 0);
-            return "Pour réserver une consultation, contactez contact.clairvoyancemedium@gmail.com ou visitez ClairvoyanceMedium.com. Souhaitez-vous plus d’infos sur le processus ? (oui/non)";
-        } else if (lowerMsg === "3") {
-            trackClick("FollowUpNewTopic", "Interaction", 0);
-            return translations.proactivePrompt;
-        } else {
-            return "Je n’ai pas compris votre choix. Tapez : 1 pour plus de détails, 2 pour une consultation, 3 pour un autre sujet.";
-        }
-    }
-
     // Gestion de "oui/non" après "Souhaitez-vous en savoir plus ?"
     if (awaitingMoreInfo) {
         awaitingMoreInfo = false;
         if (["oui", "yes", "ok", "d'accord", "ouais"].includes(lowerMsg)) {
             trackClick("MoreInfoYes", "Interaction", 0);
-            awaitingFollowUp = true;
-            const detailedResponse = lastMatchedItem.detailedAnswer || translations.siteDefaultDetail;
-            return `${detailedResponse} ${translations.followUpOptions}`;
+            return lastMatchedItem.detailedAnswer || lastMatchedItem.answer; // Retourne les détails ou la réponse initiale si pas de détails
         } else if (["non", "no", "pas", "nan"].includes(lowerMsg)) {
             trackClick("MoreInfoNo", "Interaction", 0);
-            return translations.proactivePrompt;
+            return translations.agree; // Simple confirmation, laisse l'utilisateur continuer
         } else {
-            return "Je n’ai pas compris. Voulez-vous en savoir plus ? (oui/non)";
+            return translations.notUnderstood; // Demande clarification sans imposer
         }
     }
 
@@ -947,7 +924,7 @@ function getResponse(userMsg) {
         nonUnderstoodCount = 0;
         trackClick("Serious", "Interaction", 0);
         return translations.grave;
-    } else if (["d'accord", "ouais", "oué", "ok"].includes(lowerMsg) && !awaitingMoreInfo && !awaitingFollowUp) {
+    } else if (["d'accord", "ouais", "oué", "ok"].includes(lowerMsg) && !awaitingMoreInfo) {
         nonUnderstoodCount = 0;
         return translations.agree;
     } else {
@@ -957,13 +934,13 @@ function getResponse(userMsg) {
             lastMatchedItem = matchedItem;
             awaitingMoreInfo = true;
             trackClick("ResponseGiven", "Interaction", 0);
-            return `${matchedItem.answer} ${translations.moreInfo}`;
+            return `${matchedItem.answer} ${translations.moreInfo}`; // Garde "plus d'infos ?" pour la base de connaissances
         } else {
             nonUnderstoodCount++;
             trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
             if (nonUnderstoodCount < 3) return translations.notUnderstood;
             nonUnderstoodCount = 0;
-            return `${translations.notUnderstoodAfter} ${translations.proactivePrompt}`;
+            return translations.notUnderstoodAfter;
         }
     }
 }
@@ -1005,9 +982,8 @@ function getResponseFromSite(userMsg, callback) {
     });
 
     if (maxOverlap > 0 && bestMatch) {
-        lastMatchedItem = { answer: bestMatch, detailedAnswer: null }; // Stocke le contenu du site dans lastMatchedItem
-        awaitingMoreInfo = true;
-        callback(`${bestMatch} ${translations.moreInfo}`);
+        lastMatchedItem = { answer: bestMatch, detailedAnswer: null }; // Stocke pour un éventuel suivi
+        callback(bestMatch); // Fournit directement le contenu du site sans "plus d'infos ?"
     } else {
         callback(getResponse(userMsg));
     }
@@ -1191,7 +1167,7 @@ if (speechRecognitionSupported) {
 
 if (!("speechSynthesis" in window)) voiceToggle.style.display = "none";
 </script>
-  
+    
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("#current-year,#current-year-footer").forEach(e=>e.textContent=new Date().getFullYear());function addToFavorites(e){const t=e.querySelector(".favorite-text");t.innerHTML="⭐ Ajouté !",t.style.color="#FFD700",e.setAttribute("aria-pressed","true"),/iPhone|iPad|iPod/i.test(navigator.userAgent)?alert("Partagez > Ajouter à l’écran d’accueil"):/Android/i.test(navigator.userAgent)?alert("Menu (⋮) > Ajouter à l’écran d’accueil"):alert("Ctrl + D ou Cmd + D");trackClick("Ajout Favoris","Interaction",0);}function trackClick(e,t="CTA",n=null){typeof gtag==="function"?gtag("event","click",{"event_category":t,"event_label":e,"value":n}):console.log("gtag indisponible:",e,t,n);}const t=document.querySelectorAll(".favorite-button");t.forEach(e=>e.addEventListener("click",()=>addToFavorites(e)));const n=document.querySelectorAll(".carousel blockquote");let a=0;n[0].classList.add("active"),setInterval(()=>{n.forEach(e=>e.classList.remove("active")),n[a].classList.add("active"),a=(a+1)%n.length},4e3);});
   </script>
