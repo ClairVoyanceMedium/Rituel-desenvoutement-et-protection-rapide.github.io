@@ -850,8 +850,12 @@ const translations = {
     proactivePrompt: "D’accord, souhaitez-vous explorer un autre sujet comme la protection, les tarifs ou autre chose ?"
 };
 
-// Base de connaissances enrichie (inchangée)
-const knowledgeBase = [ /* Votre base de connaissances reste intacte, comme fournie */ ];
+// Base de connaissances enrichie (je conserve votre structure, mais je la simplifie ici pour la lisibilité)
+const knowledgeBase = [
+    { question: "Fatigue|Lassitude|Torpeur", answer: "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairvoyanceMedium.com pour retrouver ta vitalité. Bénéfices : regain d'énergie et clarté retrouvée.", detailedAnswer: "Cette fatigue écrasante est bien plus qu’un simple épuisement physique. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée." },
+    { question: "Cauchemars|Visions|NuitsHantées", answer: "Ces cauchemars ne sont pas de simples rêves, ils sont le résultat d'une présence maléfique ; laisse Frederick chasser ces ombres pour t'offrir des nuits paisibles. Bénéfices : sommeil réparateur et sérénité nocturne.", detailedAnswer: "Tes cauchemars ne sont pas anodins : ils peuvent être des manifestations d’une présence maléfique infiltrant ton esprit pendant ton sommeil. Frederick, avec ses 25 ans d’expérience, maîtrise des rituels puissants pour chasser ces ombres et purifier ton espace de repos. Une fois libéré de ces intrusions, tu retrouveras des nuits paisibles et un sommeil réparateur, essentiel à ton bien-être. Bénéfices : sommeil réparateur et sérénité nocturne." },
+    // Ajoutez les autres entrées ici si nécessaire
+];
 
 // Préparation de la base de connaissances pour une recherche sans accents
 function removeAccents(str) {
@@ -868,7 +872,7 @@ let nonUnderstoodCount = 0;
 let awaitingMoreInfo = false;
 let awaitingFollowUp = false;
 let lastMatchedItem = null;
-let conversationHistory = []; // Stocke l’historique pour le contexte
+let conversationHistory = []; // Historique pour fluidité
 
 function cleanInput(input) {
     return input.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).map(word => removeAccents(word)).filter(word => word.length > 0);
@@ -893,7 +897,7 @@ function getResponse(userMsg) {
     const lowerMsg = userMsg.toLowerCase().trim();
     conversationHistory.push(lowerMsg); // Ajoute à l’historique
 
-    // Gestion des options de suivi après une réponse détaillée
+    // 1. Gestion des options de suivi après une réponse détaillée
     if (awaitingFollowUp) {
         awaitingFollowUp = false;
         if (lowerMsg === "1") {
@@ -906,11 +910,11 @@ function getResponse(userMsg) {
             trackClick("FollowUpNewTopic", "Interaction", 0);
             return translations.proactivePrompt;
         } else {
-            return "Je n’ai pas compris votre choix. Tapez 1 pour plus de détails, 2 pour une consultation, 3 pour un autre sujet.";
+            return "Je n’ai pas compris votre choix. Tapez : 1 pour plus de détails, 2 pour une consultation, 3 pour un autre sujet.";
         }
     }
 
-    // Gestion des réponses à "oui" ou "non" après une proposition de suivi
+    // 2. Gestion de "oui/non" après "Souhaitez-vous en savoir plus ?"
     if (awaitingMoreInfo) {
         awaitingMoreInfo = false;
         if (["oui", "yes", "ok", "d'accord", "ouais"].includes(lowerMsg)) {
@@ -925,7 +929,7 @@ function getResponse(userMsg) {
         }
     }
 
-    // Réponses de base
+    // 3. Réponses de base (vérifiées après les étapes spécifiques)
     if (lowerMsg === "bonjour") {
         nonUnderstoodCount = 0;
         trackClick("Greeting", "Interaction", 0);
@@ -942,7 +946,7 @@ function getResponse(userMsg) {
         nonUnderstoodCount = 0;
         trackClick("Serious", "Interaction", 0);
         return translations.grave;
-    } else if (["d'accord", "daccord", "ouais", "oué", "oui", "ok"].includes(lowerMsg)) {
+    } else if (["d'accord", "ouais", "oué", "ok"].includes(lowerMsg) && !awaitingMoreInfo && !awaitingFollowUp) {
         nonUnderstoodCount = 0;
         return translations.agree;
     } else {
