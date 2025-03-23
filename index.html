@@ -670,6 +670,8 @@
 </footer>
 
     <title>Chat IA avec Tracking et Assistant Vocal</title>
+    <meta name="description" content="Chatbot spirituel pour désenvoûtement, protection et purification d’aura par Frederick de ClairVoyanceMedium.com. Retrouvez vitalité et sérénité.">
+    <meta name="keywords" content="fatigue, cauchemars, désenvoûtement, protection, purification, aura, énergie, sommeil, rituels, spirituel">
     <style>
         /* Votre CSS reste inchangé */
         #chat-container {
@@ -827,6 +829,33 @@
         </form>
     </div>
 </div>
+
+<!-- Base de données exposée pour SEO (JSON-LD) -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Que faire si je suis fatigué tout le temps ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairVoyanceMedium.com pour retrouver ta vitalité. Cette fatigue écrasante est bien plus qu’un simple épuisement physique. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Pourquoi ai-je des cauchemars ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ces cauchemars ne sont pas de simples rêves, ils sont le résultat d'une présence maléfique ; laisse Frederick chasser ces ombres pour t'offrir des nuits paisibles. Tes cauchemars ne sont pas anodins : ils peuvent être des manifestations d’une présence maléfique infiltrant ton esprit pendant ton sommeil. Frederick, avec ses 25 ans d’expérience, maîtrise des rituels puissants pour chasser ces ombres et purifier ton espace de repos. Une fois libéré de ces intrusions, tu retrouveras des nuits paisibles et un sommeil réparateur, essentiel à ton bien-être. Bénéfices : sommeil réparateur et sérénité nocturne."
+            }
+        }
+    ]
+}
+</script>
+
 <script>
 // Fonction de tracking intégrée à GA4
 function trackClick(label, category = 'Chat', value = null) {
@@ -847,10 +876,10 @@ const translations = {
     agree: "D’accord, n’hésitez pas à poser d’autres questions.",
 };
 
-// Base de connaissances (exemple simplifié)
+// Base de connaissances avec réponses complètes
 const knowledgeBase = [
-    { question: "Fatigue|Lassitude|Torpeur", answer: "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairVoyanceMedium.com pour retrouver ta vitalité. Bénéfices : regain d'énergie et clarté retrouvée.", detailedAnswer: "Cette fatigue écrasante est bien plus qu’un simple épuisement physique. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée." },
-    { question: "Cauchemars|Visions|NuitsHantées", answer: "Ces cauchemars ne sont pas de simples rêves, ils sont le résultat d'une présence maléfique ; laisse Frederick chasser ces ombres pour t'offrir des nuits paisibles. Bénéfices : sommeil réparateur et sérénité nocturne.", detailedAnswer: "Tes cauchemars ne sont pas anodins : ils peuvent être des manifestations d’une présence maléfique infiltrant ton esprit pendant ton sommeil. Frederick, avec ses 25 ans d’expérience, maîtrise des rituels puissants pour chasser ces ombres et purifier ton espace de repos. Une fois libéré de ces intrusions, tu retrouveras des nuits paisibles et un sommeil réparateur, essentiel à ton bien-être. Bénéfices : sommeil réparateur et sérénité nocturne." },
+    { question: "Fatigue|Lassitude|Torpeur", fullAnswer: "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairVoyanceMedium.com pour retrouver ta vitalité. Cette fatigue écrasante est bien plus qu’un simple épuisement physique. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée." },
+    { question: "Cauchemars|Visions|NuitsHantées", fullAnswer: "Ces cauchemars ne sont pas de simples rêves, ils sont le résultat d'une présence maléfique ; laisse Frederick chasser ces ombres pour t'offrir des nuits paisibles. Tes cauchemars ne sont pas anodins : ils peuvent être des manifestations d’une présence maléfique infiltrant ton esprit pendant ton sommeil. Frederick, avec ses 25 ans d’expérience, maîtrise des rituels puissants pour chasser ces ombres et purifier ton espace de repos. Une fois libéré de ces intrusions, tu retrouveras des nuits paisibles et un sommeil réparateur, essentiel à ton bien-être. Bénéfices : sommeil réparateur et sérénité nocturne." },
 ];
 
 // Préparation de la base de connaissances
@@ -867,26 +896,36 @@ function levenshteinDistance(a, b) {
         for (let i = 1; i <= a.length; i++) {
             const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
             matrix[j][i] = Math.min(
-                matrix[j][i - 1] + 1, // insertion
-                matrix[j - 1][i] + 1, // suppression
-                matrix[j - 1][i - 1] + indicator // substitution
+                matrix[j][i - 1] + 1,
+                matrix[j - 1][i] + 1,
+                matrix[j - 1][i - 1] + indicator
             );
         }
     }
     return matrix[b.length][a.length];
 }
 
+// Normalisation phonétique simple
+function phoneticNormalize(str) {
+    return removeAccents(str)
+        .replace(/ph/g, "f")
+        .replace(/k/g, "c")
+        .replace(/qu/g, "k")
+        .replace(/ss/g, "s")
+        .replace(/ée/g, "e")
+        .replace(/ai/g, "e");
+}
+
 const processedKnowledgeBase = knowledgeBase.map(item => ({
-    question: item.question.toLowerCase().split("|").map(word => removeAccents(word.trim())).filter(word => word.length > 0),
-    answer: item.answer,
-    detailedAnswer: item.detailedAnswer
+    question: item.question.toLowerCase().split("|").map(word => phoneticNormalize(removeAccents(word.trim()))).filter(word => word.length > 0),
+    fullAnswer: item.fullAnswer
 }));
 
 let nonUnderstoodCount = 0;
 let conversationHistory = [];
 
 function cleanInput(input) {
-    return input.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).map(word => removeAccents(word)).filter(word => word.length > 0);
+    return input.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).map(word => phoneticNormalize(removeAccents(word))).filter(word => word.length > 0);
 }
 
 function findBestMatch(userInput) {
@@ -899,7 +938,7 @@ function findBestMatch(userInput) {
             item.question.forEach(kbWord => {
                 const distance = levenshteinDistance(userWord, kbWord);
                 const similarity = 1 - distance / Math.max(userWord.length, kbWord.length);
-                if (similarity > 0.7) { // Seuil de similarité (ajustable)
+                if (similarity >= 0.6) { // Seuil abaissé pour plus de tolérance
                     score += similarity;
                 }
             });
@@ -942,7 +981,7 @@ function getResponse(userMsg) {
         if (matchedItem) {
             nonUnderstoodCount = 0;
             trackClick("ResponseGiven", "Interaction", 0);
-            return matchedItem.detailedAnswer || matchedItem.answer; // Réponse complète directement
+            return matchedItem.fullAnswer; // Réponse complète directement
         } else {
             nonUnderstoodCount++;
             trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
@@ -977,30 +1016,35 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function getResponseFromSite(userMsg, callback) {
-    const userWords = cleanInput(userMsg);
-    let bestMatch = null, maxScore = 0;
-
-    siteContent.forEach(item => {
-        let score = 0;
-        userWords.forEach(userWord => {
-            item.text.forEach(siteWord => {
-                const distance = levenshteinDistance(userWord, siteWord);
-                const similarity = 1 - distance / Math.max(userWord.length, siteWord.length);
-                if (similarity > 0.7) { // Seuil de similarité (ajustable)
-                    score += similarity;
-                }
-            });
-        });
-        if (score > maxScore) {
-            maxScore = score;
-            bestMatch = item.raw;
-        }
-    });
-
-    if (maxScore > 0 && bestMatch) {
-        callback(bestMatch); // Réponse directe depuis le site
+    const matchedItem = findBestMatch(userMsg);
+    if (matchedItem) {
+        callback(matchedItem.fullAnswer); // Priorité à la base de données
     } else {
-        callback(getResponse(userMsg));
+        const userWords = cleanInput(userMsg);
+        let bestMatch = null, maxScore = 0;
+
+        siteContent.forEach(item => {
+            let score = 0;
+            userWords.forEach(userWord => {
+                item.text.forEach(siteWord => {
+                    const distance = levenshteinDistance(userWord, siteWord);
+                    const similarity = 1 - distance / Math.max(userWord.length, siteWord.length);
+                    if (similarity >= 0.6) { // Seuil abaissé pour plus de tolérance
+                        score += similarity;
+                    }
+                });
+            });
+            if (score > maxScore) {
+                maxScore = score;
+                bestMatch = item.raw;
+            }
+        });
+
+        if (maxScore > 0 && bestMatch) {
+            callback(bestMatch); // Réponse du site si rien dans la base
+        } else {
+            callback(getResponse(userMsg));
+        }
     }
 }
 
@@ -1181,7 +1225,7 @@ if (speechRecognitionSupported) {
 }
 
 if (!("speechSynthesis" in window)) voiceToggle.style.display = "none";
-</script> 
+</script>
     
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("#current-year,#current-year-footer").forEach(e=>e.textContent=new Date().getFullYear());function addToFavorites(e){const t=e.querySelector(".favorite-text");t.innerHTML="⭐ Ajouté !",t.style.color="#FFD700",e.setAttribute("aria-pressed","true"),/iPhone|iPad|iPod/i.test(navigator.userAgent)?alert("Partagez > Ajouter à l’écran d’accueil"):/Android/i.test(navigator.userAgent)?alert("Menu (⋮) > Ajouter à l’écran d’accueil"):alert("Ctrl + D ou Cmd + D");trackClick("Ajout Favoris","Interaction",0);}function trackClick(e,t="CTA",n=null){typeof gtag==="function"?gtag("event","click",{"event_category":t,"event_label":e,"value":n}):console.log("gtag indisponible:",e,t,n);}const t=document.querySelectorAll(".favorite-button");t.forEach(e=>e.addEventListener("click",()=>addToFavorites(e)));const n=document.querySelectorAll(".carousel blockquote");let a=0;n[0].classList.add("active"),setInterval(()=>{n.forEach(e=>e.classList.remove("active")),n[a].classList.add("active"),a=(a+1)%n.length},4e3);});
