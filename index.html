@@ -669,6 +669,7 @@
   <br>
 </footer>
 
+    
     <title>Chat IA avec Tracking et Assistant Vocal</title>
     <meta name="description" content="Chatbot spirituel pour désenvoûtement, protection et purification d’aura par Frederick de ClairVoyanceMedium.com. Retrouvez vitalité et sérénité.">
     <meta name="keywords" content="fatigue, cauchemars, désenvoûtement, protection, purification, aura, énergie, sommeil, rituels, spirituel">
@@ -849,7 +850,7 @@ const translations = {
     agree: "D’accord, n’hésitez pas à poser d’autres questions.",
 };
 
-// Base de connaissances avec réponses complètes et "Bénéfices" remplacé par des synonymes
+// Base de connaissances avec "Bénéfices" remplacé par des synonymes
 const knowledgeBase = [
     { question: "Fatigue | Lassitude | Torpeur | Éreintement | Faiblesse | Usure", fullAnswer: "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairVoyanceMedium.com pour retrouver ta vitalité. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée." },
     { question: "Cauchemars | Visions | Nuits Hantées | Songe Noir | Rêves Troublés | Peurs Nocturnes", fullAnswer: "Ces cauchemars ne sont pas de simples rêves, ils sont le résultat d'une présence maléfique ; laisse Frederick chasser ces ombres pour t'offrir des nuits paisibles. Ils peuvent être des manifestations d’une présence maléfique infiltrant ton esprit pendant ton sommeil. Frederick, avec ses 25 ans d’expérience, maîtrise des rituels puissants pour chasser ces ombres et purifier ton espace de repos. Une fois libéré de ces intrusions, tu retrouveras des nuits paisibles et un sommeil réparateur, essentiel à ton bien-être. Bénéfices : sommeil réparateur et sérénité nocturne." },
@@ -1027,8 +1028,21 @@ function getResponse(userMsg) {
     const lowerMsg = userMsg.toLowerCase().trim();
     conversationHistory.push(lowerMsg);
 
-    // Réponses de base avec vérification stricte pour "au revoir" et priorité pour "contact"
-    if (lowerMsg === "bonjour") {
+    // Vérification prioritaire pour "au revoir" et ses variantes
+    const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bonne journée", "salut", "bybye", "bye"];
+    if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.startsWith(phrase))) {
+        nonUnderstoodCount = 0;
+        trackClick("Goodbye", "Interaction", 0);
+        return translations.goodbye;
+    } 
+    // Vérification prioritaire pour "contact"
+    else if (lowerMsg === "contact" || lowerMsg.startsWith("contact")) {
+        nonUnderstoodCount = 0;
+        trackClick("ContactRequest", "Interaction", 0);
+        return "Contacte dès maintenant Frederick par email à l'adresse suivante : contact.clairvoyancemedium@gmail.com. Notre équipe te répondra rapidement pour organiser une consultation par email ou bien un rituel puissant, te garantissant une réactivité et une transformation immédiate adaptée à tes besoins. Avantages : réactivité et transformation immédiate.";
+    } 
+    // Autres réponses de base
+    else if (lowerMsg === "bonjour") {
         nonUnderstoodCount = 0;
         trackClick("Greeting", "Interaction", 0);
         return translations.greeting;
@@ -1036,14 +1050,6 @@ function getResponse(userMsg) {
         nonUnderstoodCount = 0;
         trackClick("Thanks", "Interaction", 0);
         return translations.thanks;
-    } else if (["au revoir", "aurevoir", "à bientôt", "bonne journée", "salut", "bybye", "bye"].some(phrase => lowerMsg === phrase)) {
-        nonUnderstoodCount = 0;
-        trackClick("Goodbye", "Interaction", 0);
-        return translations.goodbye;
-    } else if (lowerMsg === "contact") {
-        nonUnderstoodCount = 0;
-        trackClick("ContactRequest", "Interaction", 0);
-        return "Contacte dès maintenant Frederick par email à l'adresse suivante : contact.clairvoyancemedium@gmail.com. Notre équipe te répondra rapidement pour organiser une consultation par email ou bien un rituel puissant, te garantissant une réactivité et une transformation immédiate adaptée à tes besoins. Avantages : réactivité et transformation immédiate.";
     } else if (["c'est grave", "grave", "c'est vraiment grave"].includes(lowerMsg)) {
         nonUnderstoodCount = 0;
         trackClick("Serious", "Interaction", 0);
@@ -1051,7 +1057,9 @@ function getResponse(userMsg) {
     } else if (["d'accord", "ouais", "oué", "ok"].includes(lowerMsg)) {
         nonUnderstoodCount = 0;
         return translations.agree;
-    } else {
+    } 
+    // Recherche dans la base de connaissances
+    else {
         const matchedItem = findBestMatch(userMsg);
         if (matchedItem) {
             nonUnderstoodCount = 0;
