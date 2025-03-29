@@ -1,81 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset 
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-    xmlns:image="http://www.sitemaps.org/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-    <!-- Page d'accueil -->
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
+  <!-- Page principale -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://i.imgur.com/GmyGlKk.webp</image:loc>
+      <image:title>Logo du Rituel de Désenvoutement et Protection</image:title>
+      <image:caption>Image représentative du service de désenvoutement rapide à distance</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.imgur.com/KBYqPcf.webp</image:loc>
+      <image:title>Rituel Divin de Désenvoutement</image:title>
+      <image:caption>Illustration du puissant rituel de Frederick pour une libération spirituelle</image:caption>
+    </image:image>
+  </url>
 
-    <!-- Pages clés à forte valeur SEO -->
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/rituels/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-        <image:image>
-            <image:loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/rituels/image-rituel.jpg</image:loc>
-            <image:title>Rituel de Désenvoutement</image:title>
-        </image:image>
-    </url>
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/protection/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/desenvoutement/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
+  <!-- Section : Importance du Désenvoutement -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#importance-desenvoutement</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 
-    <!-- Sous-pages spécifiques (exemple) -->
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/rituels/rituel-purification/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.85</priority>
-    </url>
+  <!-- Section : Pourquoi invoquer un rituel -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#pourquoi-rituel</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 
-    <!-- Pages optimisées pour la recherche vocale -->
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/faq/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/rituels-simples/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/conseils/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
+  <!-- Section : Bénéfices -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#benefices</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-    <!-- Fichier PDF stratégique -->
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/guide-rituels.pdf</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.6</priority>
-    </url>
+  <!-- Section : Détection des sorts -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#detection-sorts</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-    <!-- Page de contact -->
-    <url>
-        <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/contact/</loc>
-        <lastmod>2025-03-09T14:00:00+00:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
+  <!-- Section : Frederick -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#frederick</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Section : Voyance par email -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#voyance-par-email</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Section : Témoignages -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#temoignages</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Section : Procédure -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#procedure</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Ressources statiques -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/favicon_optimized.png</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+      <image:loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/favicon_optimized.png</image:loc>
+      <image:title>Favicon de ClairvoyanceMedium</image:title>
+      <image:caption>Icône officielle du site leader en désenvoutement rapide</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/manifest.json</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Ressources additionnelles (polices critiques) -->
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
+  <url>
+    <loc>https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2</loc>
+    <lastmod>2025-03-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
 </urlset>
